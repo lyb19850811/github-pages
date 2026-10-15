@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lyb19850811.github.io/github-pages/sitemap.xml
