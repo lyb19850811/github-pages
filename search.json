@@ -1,0 +1,14 @@
+---
+layout: none
+---
+[
+{% for note in site.posts %}
+  {
+    "title": {{ note.title | jsonify }},
+    "summary": {{ note.summary | jsonify }},
+    "tags": {{ note.tags | jsonify }},
+    "url": {{ note.url | relative_url | jsonify }},
+    "report": {{ note.report | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

@@ -8,6 +8,7 @@ markdown: kramdown
 permalink: /research/:slug/
 plugins:
   - jekyll-sitemap
+  - jekyll-feed
 exclude:
   - README.md
 
