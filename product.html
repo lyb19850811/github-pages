@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品详情 - GitHub Pages 示例站点</title>
+  <meta name="description" content="商品详情页，展示单个商品的图片、价格与描述。">
+  <link rel="canonical" href="https://lyb19850811.github.io/github-pages/product.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GitHub Pages 示例">
+  <meta property="og:title" content="商品详情 - GitHub Pages 示例站点">
+  <meta property="og:description" content="商品详情页，展示单个商品的图片、价格与描述。">
+  <meta property="og:url" content="https://lyb19850811.github.io/github-pages/product.html">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="商品详情 - GitHub Pages 示例站点">
+  <meta name="twitter:description" content="商品详情页，展示单个商品的图片、价格与描述。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="./">首页</a>
+    <a href="products.html" class="active">商品</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <main id="product">
+    <p class="meta">加载中…</p>
+  </main>
+  <script>
+  (async function () {
+    var main = document.getElementById('product');
+    var params = new URLSearchParams(location.search);
+    var id = params.get('id');
+    var products = [];
+    try {
+      var res = await fetch('products.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      products = (await res.json()).products;
+    } catch (err) {
+      main.innerHTML = '<p class="error">商品数据加载失败，请稍后重试。</p>';
+      return;
+    }
+    var p = products.find(function (x) { return x.id === id; });
+    if (!p) {
+      document.title = '商品未找到 - GitHub Pages 示例站点';
+      main.innerHTML = '<h1>商品未找到</h1>' +
+        '<p>这个商品不存在或已下架。</p>' +
+        '<p><a href="products.html">返回商品列表</a></p>';
+      return;
+    }
+    document.title = p.name + ' - GitHub Pages 示例站点';
+    main.innerHTML = '' +
+      '<a class="back" href="products.html">← 返回商品列表</a>' +
+      '<div class="detail">' +
+        '<img src="' + p.image + '" alt="' + p.alt + '">' +
+        '<div>' +
+          '<span class="tag">' + p.category + '</span>' +
+          '<h1>' + p.name + '</h1>' +
+          '<p class="price">¥' + p.price + '</p>' +
+          '<p class="desc">' + p.description + '</p>' +
+          '<ul class="features">' + p.features.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>' +
+        '</div>' +
+      '</div>';
+    var ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      'name': p.name,
+      'description': p.description,
+      'image': p.image,
+      'offers': {
+        '@type': 'Offer',
+        'price': p.price,
+        'priceCurrency': 'CNY',
+        'availability': 'https://schema.org/InStock'
+      }
+    });
+    document.head.appendChild(ld);
+  })();
+  </script>
+</body>
+</html>

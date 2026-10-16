@@ -45,3 +45,134 @@ code {
   color: var(--muted);
   font-size: .9rem;
 }
+
+/* 商品展示 */
+.filter {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter button {
+  border: 1px solid #d0d7de;
+  background: #fff;
+  color: var(--muted);
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+.filter button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  display: block;
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--fg);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+  transform: translateY(-2px);
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: .9rem 1rem 1rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: .72rem;
+  color: var(--accent);
+  background: #ddf4ff;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  margin-bottom: .4rem;
+}
+
+.card h2 {
+  font-size: 1rem;
+  margin: 0 0 .3rem;
+}
+
+.price {
+  color: #d1242f;
+  font-weight: 600;
+  margin: 0;
+}
+
+.error {
+  color: var(--muted);
+}
+
+/* 商品详情 */
+.back {
+  display: inline-block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .9rem;
+  margin-bottom: 1.25rem;
+}
+
+.back:hover {
+  color: var(--accent);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.detail img {
+  width: 100%;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  display: block;
+}
+
+.detail h1 {
+  margin: .25rem 0 .5rem;
+}
+
+.detail .price {
+  font-size: 1.5rem;
+}
+
+.features {
+  padding-left: 1.2rem;
+  margin-top: 1rem;
+}
+
+.features li {
+  margin-bottom: .25rem;
+}
+
+@media (max-width: 560px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}
