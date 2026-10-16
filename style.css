@@ -320,6 +320,10 @@ code {
   }
 }
 
+/* 评论 */
+.comments { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--bg); }
+.comments h2 { margin: 0 0 1rem; }
+
 /* 上一篇 / 下一篇 */
 .post-nav {
   display: flex;
