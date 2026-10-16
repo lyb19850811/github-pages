@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="312" viewBox="0 0 640 312" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="640" height="312" fill="#ffffff"/>
+
+  <!-- Front Controller -->
+  <rect x="150" y="20" width="340" height="54" rx="6" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="320" y="44" text-anchor="middle" font-size="15" font-weight="bold" fill="#0550ae">index.php（Front Controller 唯一前端入口）</text>
+  <text x="320" y="63" text-anchor="middle" font-size="12" fill="#57606a">所有非静态请求 rewrite 到这里</text>
+
+  <line x1="320" y1="74" x2="320" y2="98" stroke="#8b949e" stroke-width="1.5"/>
+  <polygon points="316,94 324,94 320,104" fill="#8b949e"/>
+
+  <!-- Bootstrap layer -->
+  <rect x="110" y="104" width="420" height="76" rx="6" fill="#fff8c5" stroke="#9a6700" stroke-width="1.5"/>
+  <text x="320" y="128" text-anchor="middle" font-size="14" font-weight="bold" fill="#7d4e00">引导层　wp-blog-header.php → wp-load.php → wp-settings.php</text>
+  <text x="320" y="149" text-anchor="middle" font-size="12" fill="#57606a">初始化 $wpdb / $wp / $wp_query / $wp_rewrite</text>
+  <text x="320" y="167" text-anchor="middle" font-size="12" fill="#57606a">加载 mu-plugins → plugins → theme，依次触发 hooks</text>
+
+  <line x1="320" y1="180" x2="320" y2="204" stroke="#8b949e" stroke-width="1.5"/>
+  <polygon points="316,200 324,200 320,210" fill="#8b949e"/>
+
+  <!-- Three columns -->
+  <rect x="24" y="210" width="192" height="58" rx="6" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.5"/>
+  <text x="120" y="235" text-anchor="middle" font-size="14" font-weight="bold" fill="#116329">wp-admin/</text>
+  <text x="120" y="254" text-anchor="middle" font-size="12" fill="#57606a">管理后台</text>
+
+  <rect x="224" y="210" width="192" height="58" rx="6" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.5"/>
+  <text x="320" y="235" text-anchor="middle" font-size="14" font-weight="bold" fill="#116329">wp-includes/</text>
+  <text x="320" y="254" text-anchor="middle" font-size="12" fill="#57606a">核心运行时</text>
+
+  <rect x="424" y="210" width="192" height="58" rx="6" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.5"/>
+  <text x="520" y="235" text-anchor="middle" font-size="14" font-weight="bold" fill="#116329">wp-content/</text>
+  <text x="520" y="254" text-anchor="middle" font-size="12" fill="#57606a">用户层</text>
+
+  <text x="320" y="292" text-anchor="middle" font-size="12" fill="#57606a">themes / plugins / mu-plugins / uploads</text>
+</svg>
