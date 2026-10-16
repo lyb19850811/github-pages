@@ -2,44 +2,64 @@
 layout: default
 active: index
 ---
-<h1>研究日志</h1>
-<p class="meta">日常研究结果记录 · 共 {{ site.posts | size }} 篇研究 · {{ site.tags | size }} 个标签</p>
-
-<p>这里记录我的日常研究产物：每篇研究一个独立文件、多标签归类、按标签筛选；另收集一批可在线试玩的开源小游戏。</p>
-
-<div class="search-wrap">
-  <input type="search" id="search-input" class="search-input" placeholder="搜索研究笔记（标题 / 摘要 / 标签）…" aria-label="搜索研究笔记" data-index="{{ '/search.json' | relative_url }}">
-</div>
+<section class="hero">
+  <h1>研究日志</h1>
+  <p class="hero-desc">MCP、Agent、LLM、系统架构与数据库的深度研究笔记，每篇独立成文、多标签归类。</p>
+  <div class="hero-stats">
+    <span class="stat"><strong>{{ site.posts | size }}</strong> 篇研究</span>
+    <span class="stat"><strong>{{ site.tags | size }}</strong> 个标签</span>
+    <span class="stat"><strong>持续</strong> 更新</span>
+  </div>
+  <div class="search-wrap">
+    <input type="search" id="search-input" class="search-input" placeholder="搜索研究笔记（标题 / 摘要 / 标签）…" aria-label="搜索研究笔记" data-index="{{ '/search.json' | relative_url }}">
+  </div>
+</section>
 <div class="search-results" id="search-results" hidden></div>
+
+<h2>研究方向</h2>
+<div class="directions">
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=mcp">MCP <span>{{ site.tags['mcp'] | size }}</span></a>
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=agents">Agent <span>{{ site.tags['agents'] | size }}</span></a>
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=nlp">NLP <span>{{ site.tags['nlp'] | size }}</span></a>
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=database">数据库 <span>{{ site.tags['database'] | size }}</span></a>
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=security">安全 <span>{{ site.tags['security'] | size }}</span></a>
+  <a class="direction-chip" href="{{ '/notes/' | relative_url }}?tag=github-pages">GitHub Pages <span>{{ site.tags['github-pages'] | size }}</span></a>
+</div>
 
 <h2>最近更新</h2>
 <div class="home-recent">
 {% assign recent = site.posts | sort: 'report' | reverse %}
 {% for note in recent limit: 5 %}
-  <a class="home-recent-item" href="{{ note.url | relative_url }}">
-    <span class="home-recent-report">报告 {{ note.report }}</span>
-    <span class="home-recent-title">{{ note.title }}</span>
-    <time datetime="{{ note.date | date: '%Y-%m-%d' }}">{{ note.date | date: '%Y-%m-%d' }}</time>
+  <a class="home-card" href="{{ note.url | relative_url }}">
+    <span class="home-card-report">报告 {{ note.report }}</span>
+    <h3>{{ note.title }}</h3>
+    <p class="home-card-summary">{{ note.summary }}</p>
+    <p class="home-card-meta">
+      <time datetime="{{ note.date | date: '%Y-%m-%d' }}">{{ note.date | date: '%Y-%m-%d' }}</time>
+      {% for t in note.tags limit: 4 %}<span class="tag">{{ t }}</span>{% endfor %}
+    </p>
   </a>
 {% endfor %}
 </div>
 
-<h2>标签</h2>
+<h2>热门标签</h2>
 <div class="tag-cloud">
-{% assign tags_sorted = site.tags | sort %}
-{% for tag in tags_sorted %}
-  {% assign t = tag[0] %}
-  {% assign posts = tag[1] %}
-  <a class="tag-cloud-item" href="{{ '/notes/' | relative_url }}?tag={{ t | url_encode }}">{{ t }} <span class="count">{{ posts | size }}</span></a>
+{% assign tag_entries = '' | split: '' %}
+{% for tag in site.tags %}
+  {% assign key = tag[1] | size | plus: 100 %}
+  {% assign entry = key | append: '|' | append: tag[0] %}
+  {% assign tag_entries = tag_entries | push: entry %}
 {% endfor %}
+{% assign tag_entries = tag_entries | sort | reverse %}
+{% for entry in tag_entries limit: 12 %}
+  {% assign parts = entry | split: '|' %}
+  {% assign t = parts[1] %}
+  {% assign count = parts[0] | minus: 100 %}
+  <a class="tag-cloud-item" href="{{ '/notes/' | relative_url }}?tag={{ t | url_encode }}">{{ t }} <span class="count">{{ count }}</span></a>
+{% endfor %}
+  <a class="tag-cloud-more" href="{{ '/tags.html' | relative_url }}">查看全部标签 →</a>
 </div>
 
-<h2>快速入口</h2>
-<ul>
-  <li><a href="{{ '/notes/' | relative_url }}">研究笔记</a> — {{ site.posts | size }} 篇研究，支持多选标签筛选。</li>
-  <li><a href="{{ '/games/' | relative_url }}">小游戏</a> — 可在线试玩的开源小游戏合集。</li>
-  <li><a href="{{ '/tags.html' | relative_url }}">标签</a> — 全部标签索引。</li>
-  <li><a href="{{ '/about.html' | relative_url }}">关于</a> — 关于本站。</li>
-</ul>
+<p class="games-link"><a href="{{ '/games/' | relative_url }}">小游戏合集（可在线试玩）→</a></p>
 
 <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
