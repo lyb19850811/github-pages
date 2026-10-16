@@ -176,3 +176,84 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* 研究日志：标签筛选 */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0 1.5rem;
+}
+.tag-chip {
+  border: 1px solid var(--bg);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: .35rem .8rem;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.tag-chip:hover { border-color: var(--accent); color: var(--accent); }
+.tag-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.tag-chip .count {
+  opacity: .7;
+  font-size: .8em;
+  margin-left: .2em;
+}
+.notes { display: flex; flex-direction: column; gap: 1rem; }
+.note {
+  border: 1px solid var(--bg);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  background: #fff;
+}
+.note h2 { margin: 0 0 .25rem; font-size: 1.15rem; }
+.note h2 a { color: var(--fg); text-decoration: none; }
+.note h2 a:hover { color: var(--accent); }
+.note .summary { margin: .5rem 0; }
+.note-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0 0; }
+
+/* 研究日志：标签索引 */
+.tag-group { margin: 1.5rem 0; }
+.tag-group h2 { border-bottom: 1px solid var(--bg); padding-bottom: .25rem; }
+.tag-posts { list-style: none; padding: 0; margin: .5rem 0; }
+.tag-posts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .3rem 0;
+}
+.tag-posts time { color: var(--muted); font-size: .85rem; white-space: nowrap; }
+.tag-link a { font-size: .9rem; }
+
+/* 研究正文 */
+.note-detail { max-width: 100%; }
+.back { margin: 0 0 .5rem; }
+.back a { color: var(--muted); text-decoration: none; }
+.back a:hover { color: var(--accent); }
+.content { line-height: 1.7; }
+.content h2 { margin: 1.75rem 0 .5rem; }
+.content h3 { margin: 1.25rem 0 .4rem; }
+.content a { color: var(--accent); }
+.content img { max-width: 100%; height: auto; border-radius: 6px; }
+.content blockquote {
+  margin: 1rem 0;
+  padding: .25rem 1rem;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+.content pre {
+  background: var(--bg);
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+.content pre code { background: none; padding: 0; }
+.content table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.content th, .content td { border: 1px solid var(--bg); padding: .4rem .6rem; text-align: left; }
+.content th { background: var(--bg); }
+.content .katex-display { overflow-x: auto; overflow-y: hidden; }

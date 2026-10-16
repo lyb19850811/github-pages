@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<article class="note-detail">
+  <p class="back"><a href="{{ '/' | relative_url }}">← 返回列表</a></p>
+  <h1>{{ page.title }}</h1>
+  <p class="meta">
+    <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%Y-%m-%d' }}</time>
+    {% for t in page.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+  </p>
+  <div class="content">
+    {{ content }}
+  </div>
+</article>

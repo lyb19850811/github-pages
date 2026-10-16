@@ -1,38 +1,22 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Pages 示例站点</title>
-  <meta name="description" content="一个从仓库 lyb19850811/github-pages 发布的 GitHub Pages 静态站点示例，演示多页面、导航与自定义 404。">
-  <link rel="canonical" href="https://lyb19850811.github.io/github-pages/">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="GitHub Pages 示例">
-  <meta property="og:title" content="GitHub Pages 示例站点">
-  <meta property="og:description" content="一个从仓库 lyb19850811/github-pages 发布的 GitHub Pages 静态站点示例。">
-  <meta property="og:url" content="https://lyb19850811.github.io/github-pages/">
-  <meta property="og:locale" content="zh_CN">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="GitHub Pages 示例站点">
-  <meta name="twitter:description" content="一个从仓库 lyb19850811/github-pages 发布的 GitHub Pages 静态站点示例。">
-  <link rel="stylesheet" href="style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "GitHub Pages 示例",
-    "url": "https://lyb19850811.github.io/github-pages/"
-  }
-  </script>
-</head>
-<body>
-  <nav>
-    <a href="./" class="active">首页</a>
-    <a href="products.html">商品</a>
-    <a href="about.html">关于</a>
-  </nav>
-  <h1>GitHub Pages 示例站点</h1>
-  <p>这是一个从仓库 <code>lyb19850811/github-pages</code> 发布的静态站点示例。</p>
-  <p class="meta">发布源：分支 <code>main</code> · 目录 <code>/</code> · 每次 push 自动重新发布。</p>
-</body>
-</html>
+---
+layout: default
+active: index
+---
+<h1>研究日志</h1>
+<p class="meta">共 {{ site.posts | size }} 篇 · 点击标签筛选（多选取交集，再点取消）</p>
+
+<div class="tag-filter" id="tag-filter" role="group" aria-label="标签筛选"></div>
+
+<div class="notes" id="notes">
+{% for note in site.posts %}
+  <article class="note" data-tags='{{ note.tags | jsonify }}'>
+    <h2><a href="{{ note.url | relative_url }}">{{ note.title }}</a></h2>
+    <p class="meta"><time datetime="{{ note.date | date: '%Y-%m-%d' }}">{{ note.date | date: '%Y-%m-%d' }}</time></p>
+    <p class="summary">{{ note.summary }}</p>
+    <p class="note-tags">{% for t in note.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
+  </article>
+{% endfor %}
+</div>
+<noscript><p class="error">标签筛选需要启用 JavaScript；仍可逐篇阅读或前往「标签」页浏览。</p></noscript>
+
+<script src="{{ '/assets/js/filter.js' | relative_url }}"></script>

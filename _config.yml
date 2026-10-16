@@ -1,0 +1,18 @@
+title: 研究日志
+description: 日常研究结果记录
+lang: zh-CN
+url: https://lyb19850811.github.io
+baseurl: /github-pages
+
+markdown: kramdown
+permalink: /research/:slug/
+plugins:
+  - jekyll-sitemap
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: research
+      math: true

@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - 页面不存在</title>
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <nav>
-    <a href="./">首页</a>
-    <a href="products.html">商品</a>
-    <a href="about.html">关于</a>
-  </nav>
-  <h1>404</h1>
-  <p>抱歉，这个页面不存在。</p>
-  <p><a href="./">返回首页</a></p>
-</body>
-</html>
+---
+layout: default
+title: 404
+noindex: true
+permalink: /404.html
+---
+<h1>404</h1>
+<p>抱歉，这个页面不存在。</p>
+<p><a href="{{ '/' | relative_url }}">返回首页</a></p>
