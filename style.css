@@ -178,11 +178,24 @@ code {
 }
 
 /* 研究日志：标签筛选 */
+.tag-filter-wrap {
+  margin: 1rem 0 1.5rem;
+}
 .tag-filter {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
-  margin: 1rem 0 1.5rem;
+  overflow: hidden;
+  transition: max-height .2s ease;
+}
+.tag-filter-toggle {
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-size: .85rem;
+  padding: 0;
+  margin-top: .5rem;
+  cursor: pointer;
 }
 .tag-chip {
   border: 1px solid var(--bg);

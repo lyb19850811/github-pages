@@ -7,7 +7,10 @@ permalink: /notes/
 <h1>研究笔记</h1>
 <p class="meta">共 {{ site.posts | size }} 篇 · 点击标签筛选（多选取交集，再点取消）</p>
 
-<div class="tag-filter" id="tag-filter" role="group" aria-label="标签筛选"></div>
+<div class="tag-filter-wrap">
+  <div class="tag-filter" id="tag-filter" role="group" aria-label="标签筛选"></div>
+  <button type="button" class="tag-filter-toggle" id="tag-filter-toggle" aria-expanded="false" hidden>展开全部标签</button>
+</div>
 
 <div class="notes" id="notes">
 {% for note in site.posts %}

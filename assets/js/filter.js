@@ -1,5 +1,6 @@
 (function () {
   var container = document.getElementById('tag-filter');
+  var toggleBtn = document.getElementById('tag-filter-toggle');
   var noteEls = Array.prototype.slice.call(document.querySelectorAll('#notes .note'));
 
   var notes = noteEls.map(function (el) {
@@ -59,9 +60,44 @@
     if (btn) toggle(btn.getAttribute('data-tag'));
   });
 
+  var collapsed = true;
+  var rowHeight = 0;
+
+  function applyCollapse() {
+    container.style.maxHeight = collapsed
+      ? rowHeight + 'px'
+      : container.scrollHeight + 'px';
+    toggleBtn.textContent = collapsed ? '展开全部标签' : '收起';
+    toggleBtn.setAttribute('aria-expanded', String(!collapsed));
+  }
+
+  function refresh() {
+    if (!toggleBtn) return;
+    var chip = container.querySelector('.tag-chip');
+    rowHeight = chip ? chip.offsetHeight : 0;
+    var full = container.scrollHeight;
+    if (full <= rowHeight + 1) {
+      toggleBtn.hidden = true;
+      container.style.maxHeight = '';
+      collapsed = true;
+    } else {
+      toggleBtn.hidden = false;
+      applyCollapse();
+    }
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      collapsed = !collapsed;
+      applyCollapse();
+    });
+    window.addEventListener('resize', refresh);
+  }
+
   var q = new URLSearchParams(window.location.search).get('tag');
   if (q !== null && counts[q] !== undefined) selected.add(q);
 
   renderButtons();
   apply();
+  refresh();
 })();
