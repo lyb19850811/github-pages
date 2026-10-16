@@ -51,6 +51,12 @@
       html += '</ol></details>';
       toc.innerHTML = html;
 
+      // 窄屏下目录默认折叠（桌面端由 CSS 强制展开）
+      var details = toc.querySelector('.toc-details');
+      if (details && window.matchMedia('(max-width: 768px)').matches) {
+        details.removeAttribute('open');
+      }
+
       // 章节高亮
       if ('IntersectionObserver' in window) {
         var links = toc.querySelectorAll('a');
@@ -67,7 +73,8 @@
         headings.forEach(function (h) { observer.observe(h); });
       }
     } else {
-      toc.hidden = true;
+      if (toc.parentNode) toc.parentNode.classList.add('no-toc');
+      toc.remove();
     }
   }
 })();

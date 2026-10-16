@@ -26,10 +26,12 @@
   }
 
   function renderButtons() {
-    var html = '<button class="tag-chip' + (selected.size === 0 ? ' active' : '') + '" data-tag="__all__">全部</button>';
+    var allPressed = selected.size === 0;
+    var html = '<button type="button" class="tag-chip' + (allPressed ? ' active' : '') + '" data-tag="__all__" aria-pressed="' + allPressed + '">全部</button>';
     allTags.forEach(function (t) {
-      var cls = selected.has(t) ? 'tag-chip active' : 'tag-chip';
-      html += '<button class="' + cls + '" data-tag="' + esc(t) + '">' + esc(t) +
+      var active = selected.has(t);
+      var cls = active ? 'tag-chip active' : 'tag-chip';
+      html += '<button type="button" class="' + cls + '" data-tag="' + esc(t) + '" aria-pressed="' + active + '">' + esc(t) +
         ' <span class="count">' + counts[t] + '</span></button>';
     });
     container.innerHTML = html;
