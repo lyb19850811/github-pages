@@ -1,4 +1,5 @@
 ---
+report: 6
 title: Agent Skills 研究综述
 date: 2026-10-16
 tags: [agents, skills, llm]

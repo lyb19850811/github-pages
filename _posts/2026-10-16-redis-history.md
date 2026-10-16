@@ -1,4 +1,5 @@
 ---
+report: 4
 title: Redis 发展史
 date: 2026-10-16
 tags: [database, redis, open-source, nosql]

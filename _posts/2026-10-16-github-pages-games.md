@@ -1,4 +1,5 @@
 ---
+report: 7
 title: GitHub Pages 小游戏实例研究
 date: 2026-10-16
 tags: [github-pages, game, javascript, frontend]

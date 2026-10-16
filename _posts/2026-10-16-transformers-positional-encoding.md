@@ -1,4 +1,5 @@
 ---
+report: 2
 title: Transformer 位置编码综述
 date: 2026-10-16
 tags: [nlp, transformers, deep-learning]

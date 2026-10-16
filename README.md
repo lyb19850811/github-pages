@@ -52,6 +52,7 @@ style.css            全站样式
 
 ```markdown
 ---
+report: 你的唯一编号
 title: 你的标题
 date: 2026-10-16
 tags: [nlp, evaluation]
@@ -110,10 +111,14 @@ Jekyll 是 GitHub Pages 原生构建,无需 CI:`site.tags` 自动聚合解决标
 
 单一层级、小写 kebab-case(`machine-learning`),避免 `ML` / `machine learning` / `machine-learning` 发散成三个标签。当前无词表校验,篇数多后可加 GitHub Action 强校验。
 
+### 编号治理约定
+
+每篇研究报告的 front matter 带唯一整数 `report` 编号,**越早完成编号越小**,从 1 起永久递增、不复用、不因标题/日期/文件名变更而改变。编号 = 报告首次提交时间升序(同日提交内按完成先后细分);新增报告取「当前最大编号 + 1」。当前最大编号:17。
+
 ## 日常使用
 
 1. 在 `_posts/` 新建 `YYYY-MM-DD-英文slug.md`。
-2. front matter 填 `title / date / tags / summary`。
+2. front matter 填 `report / title / date / tags / summary`(`report` 为唯一编号,见下)。
 3. 正文 markdown:公式 `$$`/`$`,图用 `relative_url` 引用,参考文献普通链接。
 4. `git commit && git push`,GitHub Pages 自动构建发布。
 

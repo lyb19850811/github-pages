@@ -1,4 +1,5 @@
 ---
+report: 17
 title: "Oh My Pi (omp) 研究报告：一个把 IDE 焊进终端的编码智能体"
 date: 2026-10-16
 tags: [ai, coding-agent, cli]

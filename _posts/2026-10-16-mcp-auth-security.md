@@ -1,4 +1,5 @@
 ---
+report: 11
 title: MCP 授权与安全：OAuth 2.1 子集、confused deputy 与 token passthrough
 date: 2026-10-16
 tags: [mcp, protocol, security]

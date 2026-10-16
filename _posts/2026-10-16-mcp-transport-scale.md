@@ -1,4 +1,5 @@
 ---
+report: 10
 title: MCP 传输与规模化：stdio 生命周期、Streamable HTTP 与 header 路由
 date: 2026-10-16
 tags: [mcp, protocol, transport]

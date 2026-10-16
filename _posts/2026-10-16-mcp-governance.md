@@ -1,4 +1,5 @@
 ---
+report: 14
 title: MCP 生态与治理：SEP 流程、Registry 与私有生态
 date: 2026-10-16
 tags: [mcp, protocol, governance]

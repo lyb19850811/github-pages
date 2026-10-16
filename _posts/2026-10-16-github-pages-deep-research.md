@@ -1,4 +1,5 @@
 ---
+report: 5
 title: GitHub Pages 深度研究
 date: 2026-10-16
 tags: [github-pages, jekyll, static-site, hosting, deployment]

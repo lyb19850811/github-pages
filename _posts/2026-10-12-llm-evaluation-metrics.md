@@ -1,4 +1,5 @@
 ---
+report: 1
 title: LLM 评测指标速查
 date: 2026-10-12
 tags: [nlp, evaluation]

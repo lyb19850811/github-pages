@@ -1,4 +1,5 @@
 ---
+report: 9
 title: MCP 协议核心机制：三种状态、MRTR 幂等性与订阅
 date: 2026-10-16
 tags: [mcp, protocol, agents]

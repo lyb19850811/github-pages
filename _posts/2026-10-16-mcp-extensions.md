@@ -1,4 +1,5 @@
 ---
+report: 12
 title: MCP 扩展体系：Tasks、MCP Apps、Skills 与 auth 扩展
 date: 2026-10-16
 tags: [mcp, protocol, extensions]

@@ -1,4 +1,5 @@
 ---
+report: 15
 title: MCP 相邻协议：A2A、function calling 与 Skills 的选型边界
 date: 2026-10-16
 tags: [mcp, protocol, agents]

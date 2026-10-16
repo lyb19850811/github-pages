@@ -1,4 +1,5 @@
 ---
+report: 16
 title: MCP 生产化：可观测性、缓存与版本兼容
 date: 2026-10-16
 tags: [mcp, protocol, production]

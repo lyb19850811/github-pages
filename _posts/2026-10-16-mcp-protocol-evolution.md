@@ -1,4 +1,5 @@
 ---
+report: 8
 title: MCP 2026-07-28 协议演进：从有状态到无状态
 date: 2026-10-16
 tags: [mcp, protocol, agents]

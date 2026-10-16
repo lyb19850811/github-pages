@@ -1,4 +1,5 @@
 ---
+report: 3
 title: WordPress 深度研究
 date: 2026-10-16
 tags: [wordpress, php, architecture, database, rest-api, security, deployment]

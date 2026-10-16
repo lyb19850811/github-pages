@@ -1,4 +1,5 @@
 ---
+report: 13
 title: MCP SDK 与一致性：Tier 分级、协议纪元与 conformance
 date: 2026-10-16
 tags: [mcp, protocol, sdk]

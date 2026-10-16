@@ -45,6 +45,16 @@ code {
   color: var(--muted);
   font-size: .9rem;
 }
+.report-no {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  margin-bottom: .4rem;
+}
 
 /* 商品展示 */
 .filter {
