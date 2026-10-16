@@ -21,6 +21,6 @@ permalink: /tags.html
       </li>
       {% endfor %}
     </ul>
-    <p class="tag-link"><a href="{{ '/' | relative_url }}?tag={{ t | url_encode }}">在首页筛选 →</a></p>
+    <p class="tag-link"><a href="{{ '/notes/' | relative_url }}?tag={{ t | url_encode }}">在研究笔记中筛选 →</a></p>
   </section>
 {% endfor %}

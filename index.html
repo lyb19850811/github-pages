@@ -3,20 +3,14 @@ layout: default
 active: index
 ---
 <h1>研究日志</h1>
-<p class="meta">共 {{ site.posts | size }} 篇 · 点击标签筛选（多选取交集，再点取消）</p>
+<p class="meta">日常研究结果记录</p>
 
-<div class="tag-filter" id="tag-filter" role="group" aria-label="标签筛选"></div>
+<p>这里记录我的日常研究产物：每篇研究一个独立文件、多标签归类、按标签筛选；另收集一批可在线试玩的开源小游戏。</p>
 
-<div class="notes" id="notes">
-{% for note in site.posts %}
-  <article class="note" data-tags='{{ note.tags | jsonify }}'>
-    <h2><a href="{{ note.url | relative_url }}">{{ note.title }}</a></h2>
-    <p class="meta"><time datetime="{{ note.date | date: '%Y-%m-%d' }}">{{ note.date | date: '%Y-%m-%d' }}</time></p>
-    <p class="summary">{{ note.summary }}</p>
-    <p class="note-tags">{% for t in note.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
-  </article>
-{% endfor %}
-</div>
-<noscript><p class="error">标签筛选需要启用 JavaScript；仍可逐篇阅读或前往「标签」页浏览。</p></noscript>
-
-<script src="{{ '/assets/js/filter.js' | relative_url }}"></script>
+<h2>快速入口</h2>
+<ul>
+  <li><a href="{{ '/notes/' | relative_url }}">研究笔记</a> — {{ site.posts | size }} 篇研究，支持多选标签筛选。</li>
+  <li><a href="{{ '/games/' | relative_url }}">小游戏</a> — 可在线试玩的开源小游戏合集。</li>
+  <li><a href="{{ '/tags.html' | relative_url }}">标签</a> — 全部标签索引。</li>
+  <li><a href="{{ '/about.html' | relative_url }}">关于</a> — 关于本站。</li>
+</ul>

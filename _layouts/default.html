@@ -18,6 +18,8 @@
 <body>
   <nav>
     <a href="{{ '/' | relative_url }}"{% if page.active == 'index' %} class="active"{% endif %}>首页</a>
+    <a href="{{ '/notes/' | relative_url }}"{% if page.active == 'notes' %} class="active"{% endif %}>研究笔记</a>
+    <a href="{{ '/games/' | relative_url }}"{% if page.active == 'games' %} class="active"{% endif %}>小游戏</a>
     <a href="{{ '/tags.html' | relative_url }}"{% if page.active == 'tags' %} class="active"{% endif %}>标签</a>
     <a href="{{ '/about.html' | relative_url }}"{% if page.active == 'about' %} class="active"{% endif %}>关于</a>
   </nav>

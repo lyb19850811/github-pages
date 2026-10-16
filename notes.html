@@ -1,0 +1,24 @@
+---
+layout: default
+title: 研究笔记
+active: notes
+permalink: /notes/
+---
+<h1>研究笔记</h1>
+<p class="meta">共 {{ site.posts | size }} 篇 · 点击标签筛选（多选取交集，再点取消）</p>
+
+<div class="tag-filter" id="tag-filter" role="group" aria-label="标签筛选"></div>
+
+<div class="notes" id="notes">
+{% for note in site.posts %}
+  <article class="note" data-tags='{{ note.tags | jsonify }}'>
+    <h2><a href="{{ note.url | relative_url }}">{{ note.title }}</a></h2>
+    <p class="meta"><time datetime="{{ note.date | date: '%Y-%m-%d' }}">{{ note.date | date: '%Y-%m-%d' }}</time></p>
+    <p class="summary">{{ note.summary }}</p>
+    <p class="note-tags">{% for t in note.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
+  </article>
+{% endfor %}
+</div>
+<noscript><p class="error">标签筛选需要启用 JavaScript；仍可逐篇阅读或前往「标签」页浏览。</p></noscript>
+
+<script src="{{ '/assets/js/filter.js' | relative_url }}"></script>

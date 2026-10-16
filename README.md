@@ -14,7 +14,7 @@
 构建期 + 客户端两层:
 
 - **构建期(Jekyll,GitHub Pages 原生)**:markdown → HTML;front matter 标签经 `site.tags` 自动聚合;产出每篇独立静态页、标签索引页、sitemap。
-- **客户端(原生 JS)**:首页列表做多选标签筛选(AND 交集),即时无刷新。
+- **客户端(原生 JS)**:研究笔记页做多选标签筛选(AND 交集),即时无刷新。
 
 数据流:
 
@@ -25,7 +25,7 @@ _posts/*.md (front matter + markdown 正文)
 静态 HTML(每篇正文 / 列表 / 标签索引 / sitemap)
         │  浏览器端 JS
         ▼
-首页列表多选标签筛选(AND 交集)
+研究笔记页多选标签筛选(AND 交集)
 ```
 
 ### 目录结构
@@ -36,7 +36,9 @@ _layouts/
   default.html       全站外壳:导航、SEO、按需加载 KaTeX
   research.html      研究正文模板(标题/日期/标签/正文)
 _posts/              每篇研究一个 markdown 文件(核心内容)
-index.html           研究列表 + 标签筛选
+index.html           首页(站点介绍 + 快速入口)
+notes.html           研究笔记列表 + 标签筛选
+games.html           小游戏合集(在线试玩链接)
 tags.html            标签索引(构建期自动聚合:计数 + 分组 + 深链)
 about.html           关于
 404.html             404(noindex)
@@ -66,7 +68,7 @@ summary: 一句话摘要(显示在列表页)
 1. **Jekyll 骨架**:`_config.yml` + `default`/`research` 两个布局,导航与 SEO 元信息统一到一处。
 2. **每篇一文件**:内容放 `_posts/`,日期即文件名前缀,`permalink: /research/:slug/` 生成稳定独立 URL。
 3. **标签聚合**:`site.tags` 构建期聚合,tags.html 展示全部标签 + 计数 + 分组,零手工索引。
-4. **标签筛选**:首页列表每篇带 `data-tags`(JSON),filter.js 读 DOM 构建标签按钮并做多选 AND 筛选;`?tag=` 深链可分享可收藏。
+4. **标签筛选**:研究笔记页每篇带 `data-tags`(JSON),filter.js 读 DOM 构建标签按钮并做多选 AND 筛选;`?tag=` 深链可分享可收藏。
 5. **数学**:KaTeX 客户端渲染;kramdown 把块级 `$$` 转 `\[...\]`、内联 `$...$` 原样保留,KaTeX 分隔符同时兼容。
 6. **SEO**:sitemap 由 `jekyll-sitemap` 自动生成,robots.txt 已指向;404 设 `noindex`。
 
