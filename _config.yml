@@ -8,6 +8,8 @@ markdown: kramdown
 permalink: /research/:slug/
 plugins:
   - jekyll-sitemap
+exclude:
+  - README.md
 
 defaults:
   - scope:
