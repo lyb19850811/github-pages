@@ -43,6 +43,20 @@ Tier 1 SDK（TypeScript、Python、Go、C#）在发布当日同步支持 2026-07
 
 `ping`、`logging/setLevel`、`notifications/roots/list_changed`、HTTP GET 端点、`resources/subscribe`/`unsubscribe`、SSE 断线重续（`Last-Event-ID`）全部移除或重构。所有结果必须携带 `resultType` 字段（`complete` | `input_required`）。
 
+### 3.5 迁移决策树（方向 A 产出）
+
+```text
+跨调用状态管理决策：
+
+需要跨调用状态吗？
+|-- 否 --> 直接无状态部署，任意实例可接（最简，优先）
+|-- 是 --> 状态能否塞进单次工具参数？
+|          |-- 能 --> 直接作参数传（最简）
+|          |-- 不能 / 状态大 / 需多步 --> 工具铸造显式 handle，模型作为参数穿线程
+|                                        |-- 短会话 --> handle 即可
+|                                        |-- 长任务 / 断点续做 / 中途输入 --> Tasks 扩展（tasks/get 轮询 + tasks/update）
+```
+
 ## 四、传输与授权（方向 B）
 
 ### 4.1 传输
@@ -66,6 +80,37 @@ Tier 1 SDK（TypeScript、Python、Go、C#）在发布当日同步支持 2026-07
 - **凭证绑定签发方**（SEP-2352）：凭证按签发方存储，禁止跨授权服务器复用。
 - **DCR 正式弃用 → CIMD**：DCR 保留向后兼容，未来版本移除。
 - **EMA（Enterprise-Managed Authorization）**：正式 extension，经企业 IdP 集中管控访问。
+
+### 4.4 授权时序图（方向 B 产出）
+
+```text
+Client  --无 token 请求-->  MCP Server（资源服务器）
+        <--401 + WWW-Authenticate(resource_metadata, scope)--
+Client  --取 Protected Resource Metadata-->  MCP Server
+        <--resource_metadata--
+Client  --AS 发现（RFC 8414 / OIDC Discovery）-->  Authorization Server
+        <--AS metadata--
+Client  --注册（CIMD / 预注册 / DCR）-->  Authorization Server
+Client  --authorize（浏览器：PKCE + resource + scope）-->  Authorization Server
+        <--回调 code + iss--
+Client  校验 iss（RFC 9207，与记录值一致）
+Client  --token + code_verifier + resource-->  Authorization Server
+        <--access_token--
+Client  --MCP 请求 + Authorization: Bearer-->  MCP Server
+        <--MCP 响应--
+```
+
+### 4.5 本地 / 远程安全检查清单（方向 B 产出）
+
+- [ ] 本地 stdio server：凭证从环境变量取，不套 OAuth 流程
+- [ ] Streamable HTTP server：校验 `Origin` 头，非法即 403（防 DNS rebinding）
+- [ ] 本地 server 只绑定 127.0.0.1，不绑 0.0.0.0
+- [ ] client 换码前校验 `iss`（RFC 9207），与记录值一致
+- [ ] 凭证按签发方（issuer）存储，禁止跨 AS 复用（SEP-2352）
+- [ ] 新实现不再用 DCR，改用 CIMD 注册
+- [ ] 最小权限 scope：优先取 `WWW-Authenticate` 中的 scope，按需增量授权
+- [ ] tool annotations 视为 untrusted，工具调用前人工确认（human-in-the-loop）
+- [ ] 企业多租户场景用 EMA 经 IdP 集中管控访问
 
 ## 五、一次 tools/call 全链路（2026-07-28）
 
@@ -114,6 +159,26 @@ tools/call                          → 两条路径：
 - **Extensions**：Tasks（AWS 贡献，poll 式 `tasks/get` + `tasks/update`）、MCP Apps、Skills over MCP、EMA、OAuth Client Credentials。
 - **采用者**：AWS Bedrock AgentCore（无状态部署）、Cloudflare Agents SDK（Workers 日零支持，Sentry/Linear 借其接入）、Google Cloud、Figma、honeycomb.io（约 20% 月度交互查询来自 agent）。
 - **协议定位**：MCP 是「Agent↔工具」的垂直连接；Google 主导的 A2A 是「Agent↔Agent」的水平协作，二者互补而非竞争，且均纳入 Linux Foundation 治理（ACP 已并入 A2A）。选型时二者常同时出现：MCP 接工具，A2A 做多 Agent 编排。
+
+**协议格局图（方向 G 产出）**
+
+```text
+Agent / Host（宿主应用）
+        |
+        |-- MCP（垂直）── Agent <-> 工具 / 数据 / 提示
+        |-- A2A（水平）── Agent <-> Agent
+```
+
+**选型决策树（方向 G 产出）**
+
+```text
+需求是什么？
+|-- 给单个 Agent 接外部工具 / 数据 / 提示 --> MCP
+|-- 多个 Agent 之间协作 / 编排 --> A2A
+|-- 单厂商单模型、无跨平台诉求、只在单一宿主 --> 原生 function calling（最简）
+|-- 既要接工具、又要多 Agent 编排 --> MCP + A2A 同时用（分层，不冲突）
+|-- 内部确定性流程 / 领域知识（教工作流而非接工具）--> Agent Skills
+```
 
 一句话总结：2026-07-28 把 MCP 从「需要 sticky session 的有状态协议」改成「像 Web 一样无状态、可缓存、可路由」的基础设施——这是一次把 MCP 推向生产级可扩展性的关键转身。
 
