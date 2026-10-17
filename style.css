@@ -47,6 +47,12 @@ code {
   color: var(--muted);
   font-size: .9rem;
 }
+.updated-at {
+  display: inline-block;
+  color: var(--muted);
+  font-size: .8rem;
+  opacity: .85;
+}
 .report-no {
   display: inline-block;
   font-size: .72rem;

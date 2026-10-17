@@ -115,10 +115,39 @@ Jekyll 是 GitHub Pages 原生构建,无需 CI:`site.tags` 自动聚合解决标
 
 每篇研究报告的 front matter 带唯一整数 `report` 编号,**越早完成编号越小**,从 1 起永久递增、不复用、不因标题/日期/文件名变更而改变。编号 = 报告首次提交时间升序(同日提交内按完成先后细分);新增报告取「当前最大编号 + 1」。当前最大编号:17。
 
+### 更新元数据约定
+
+每篇研究报告需体现「最后更新时间」与「更新总次数」,通过 front matter 两个字段记录:
+
+| 字段 | 类型 | 含义 | 何时填写 |
+|---|---|---|---|
+| `updated` | 日期 `YYYY-MM-DD` | 最后一次实质更新的日期 | 首次发布**可不填**;每次实质更新后改为当次更新日期 |
+| `updates` | 整数 | 累计实质更新次数 | 首次发布**可不填**(默认视为 0);每次实质更新后 `+1` |
+
+规则:
+
+1. **首次发布**不写 `updated` / `updates`,页面不显示「更新于…」。
+2. **每次实质更新**(补充/修正内容、新增章节等)后,`updates` 在原有基础上 `+1`,`updated` 改为当次更新日期。
+3. 仅改错别字、格式等非实质改动,可不必计次(自行判断,但一旦计次则必须同步两个字段)。
+4. 页面模板按 `{% if page.updated %}` 条件渲染,无 `updated` 字段的旧文档不受影响;有 `updated` 时显示「更新于 `updated` · 共 `updates` 次更新」。
+
+示例(第二次实质更新后的 front matter):
+
+```markdown
+---
+report: 5
+title: 示例标题
+date: 2026-10-16
+updated: 2026-10-17
+updates: 2
+tags: [github-pages]
+---
+```
+
 ## 日常使用
 
 1. 在 `_posts/` 新建 `YYYY-MM-DD-英文slug.md`。
-2. front matter 填 `report / title / date / tags / summary`(`report` 为唯一编号,见下)。
+2. front matter 填 `report / title / date / tags / summary`(`report` 为唯一编号,见下);有更新时补 `updated / updates`,见「更新元数据约定」。
 3. 正文 markdown:公式 `$$`/`$`,图用 `relative_url` 引用,参考文献普通链接。
 4. `git commit && git push`,GitHub Pages 自动构建发布。
 

@@ -2,6 +2,8 @@
 report: 5
 title: GitHub Pages 深度研究
 date: 2026-10-16
+updated: 2026-10-17
+updates: 1
 tags: [github-pages, jekyll, static-site, hosting, deployment]
 summary: 梳理 GitHub Pages 的定位、静态托管原理、两种发布源与 Jekyll 构建机制，以及配额、可见性、插件白名单等需要关注的点。
 math: false
@@ -15,6 +17,25 @@ GitHub Pages 把 Git 仓库直接变成静态网站，零服务器、零运维�
 2. **两种站点类型**：用户/组织站（`<owner>.github.io`，每账号 1 个）与项目站（`<owner>.github.io/<repo>`，每仓库 1 个）。
 3. **两种发布源**：分支发布（Jekyll 服务端构建，受插件白名单约束）与 Actions 工作流（任意静态站点生成器）。
 4. **天花板在三处**：配额（1 GB 站点 / 100 GB 月带宽 / 10 分钟构建）、插件白名单、无后端。
+
+## 知名使用案例
+
+GitHub Pages 并非只服务于个人小站，大量知名开源项目与科技公司都曾用它托管官网或文档。以下来自 GitHub 官方精选合集 [GitHub Pages examples](https://github.com/collections/github-pages-examples)：
+
+| 项目 | 仓库 | 说明 |
+|---|---|---|
+| **React** | `react/react` | 全球最流行的前端 UI 库（25 万+ stars） |
+| **Bootstrap** | `twbs/bootstrap` | 最流行的前端 CSS 框架（17 万+ stars） |
+| **Jekyll** | `jekyll/jekyll` | 静态站点生成器，也是 GitHub Pages 默认引擎（5 万+ stars） |
+| **Electron 官网** | `electron/electronjs.org-old` | Electron 框架官方网站 |
+| **Netflix 开源站** | `Netflix/netflix.github.com` | Netflix 开源项目门户 |
+| **Twitter 开源站** | `twitter/opensource-website` | Twitter 开源项目与组织展示 |
+| **Square 开源站** | `square/square.github.io` | Square 的开源项目门户 |
+| **Yelp 开源站** | `Yelp/yelp.github.io` | Yelp 开源项目展示 |
+| **Artsy 工程博客** | `artsy/artsy.github.io` | Artsy 工程团队开发者博客 |
+| **政府创新案例集** | `github/government.github.com` | 展示开放政府创新实践 |
+
+这些案例的共性：都是**静态文档 / 官网 / 开源门户**场景，印证了下文「适用场景」的结论——GitHub Pages 最契合「静态、可版本化、低动态」的内容。
 
 ## 定位与站点类型
 
@@ -88,6 +109,7 @@ GitHub Pages 把 Git 仓库直接变成静态网站，零服务器、零运维�
 
 ## 参考
 
+- [GitHub Pages examples（官方精选合集）](https://github.com/collections/github-pages-examples)
 - [What is GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
 - [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
 - [Configuring a publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
