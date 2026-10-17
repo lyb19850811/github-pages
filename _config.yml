@@ -6,6 +6,7 @@ baseurl: /github-pages
 
 markdown: kramdown
 permalink: /research/:slug/
+future: true
 plugins:
   - jekyll-sitemap
   - jekyll-feed
