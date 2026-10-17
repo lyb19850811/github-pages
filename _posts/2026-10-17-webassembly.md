@@ -3,7 +3,7 @@ report: 39
 title: WebAssembly 深度研究
 date: 2026-10-17
 updated: 2026-10-17
-updates: 3
+updates: 5
 tags: [webassembly, wasm, wasi, vm, performance]
 summary: 系统拆解 WebAssembly——它是什么、解决什么问题、内存与沙箱模型、与 JS/JVM 的关系、编译工具链，以及 WASI/组件模型如何把它从浏览器推向服务端与云原生，附 2026 年各提案标准化进度与典型场景。
 math: false
@@ -189,12 +189,76 @@ AI 推理是 wasm 在 2026 年最受关注的落地方向之一，本文单独�
 
 需注意：WASI-NN 仍在演进（v0.2.0 仅定义 load/init/compute 等顶层接口，**算子覆盖不全**，跨运行时落地仍有摩擦）；浏览器对 WASI-NN 支持参差（Chrome 110 支持、Firefox/Safari 未完整跟进）。
 
+### 四个关键项目 / 技术深入
+
+#### 1. WebLLM：浏览器内 LLM 推理引擎（深度解析）
+
+- **定位**：MLC 社区（CMU Catalyst、UW SAMPL、SJTU、OctoML，核心人物陈天奇）出品的高性能浏览器内 LLM 推理引擎，19k+ stars，Apache-2.0。有论文（arXiv:2412.15803）与在线演示 `chat.webllm.ai`。
+- **架构层次**（自上而下）：
+  1. 应用层：OpenAI API 兼容（`engine.chat.completions.create()`）
+  2. `MLCEngine` 接口层（另有 `WebWorkerMLCEngine` / `ServiceWorkerMLCEngine`）
+  3. wasm 模型库（基于 TVM Unity / MLC LLM 编译）
+  4. WebGPU 硬件加速
+  5. 缓存层（Cache API / IndexedDB / OPFS / Cross-Origin）
+- **与 MLC/TVM 的关系**：WebLLM 是 **MLC LLM 的浏览器配套项目**，复用 MLC LLM 的模型产物；运行时依赖 TVMjs（`@mlc-ai/web-runtime`，即 Apache TVM 的 Web 端运行时）。
+- **模型库格式（Model Record）**：`model`（权重 URL）+ `model_lib`（wasm 库）+ `model_id`，且 `model_lib` 可在不同模型变体间共享；支持 SRI 完整性校验（SHA-256/384/512）。
+- **完整 OpenAI 兼容**：流式输出、JSON 模式、Seed 可复现、Function-calling（WIP）、Logit 级控制。
+- **模型**：Llama、Phi、Gemma、Mistral、Qwen 等 0.5B~8B，完整列表见 mlc.ai/models。
+- **自定义模型**：简单方式只需复用现有 `model_lib` + 换权重；完整自定义需用 MLC LLM 工具链编译。
+
+**最小用法**（5 行）：
+
+```js
+import { CreateMLCEngine } from "@mlc-ai/web-llm";
+const engine = await CreateMLCEngine("Llama-3.1-8B-Instruct-q4f32_1-MLC");
+const reply = await engine.chat.completions.create({
+  messages: [{ role: "user", content: "你好" }],
+});
+```
+
+#### 2. WebGPU：浏览器内 AI 的算力来源
+
+WebGPU 是浏览器端 GPU 计算标准，是 wasm AI 推理的**性能核心**。关键理解：**wasm 是胶水层（模型加载、tokenization、调度、回退），WebGPU 是计算加速层（矩阵乘法、注意力、FFN），二者协作而非二选一**。
+
+主流技术栈是「**GGUF + llama.cpp WASM + WebGPU**」：llama.cpp 编译成 wasm + 手写 WGSL 计算着色器，wasm 管调度、WebGPU 跑矩阵乘法热路径。这是当前最成熟、最可移植的浏览器 LLM 路径（WebLLM 即基于此）。
+
+2026-06 实测基准（Phi-3.5 Mini 3.8B，Q4）：
+
+| 设备 | WebGPU | 备注 |
+|---|---|---|
+| Surface Pro 11 (X Elite) | 32 t/s | 配 NPU 时 WebNN 可达 61 t/s |
+| MacBook Pro M4 Max | 48 t/s | WebGPU 最优 |
+| Dell XPS 15 (RTX 4070) | 55 t/s | WebGPU 最优 |
+| iPhone 15 Pro (A17) | 11 t/s | 移动端较弱 |
+
+量化对吞吐影响显著：Llama 3.1 8B 从 FP16（16GB）的 8~12 t/s 到 **Q4_K_M（4.7GB）的 22~29 t/s**，4-bit 权重带宽节省远超反量化开销，移动端净提升约 2.8 倍。**移动端甜点是 Q4_K_M**。
+
+#### 3. WebNN：更高层的硬件抽象（与 WebGPU 的对比）
+
+WebNN 是 W3C 的神经网络推理 API，与 WebGPU 定位不同：
+
+| 维度 | WebGPU | WebNN |
+|---|---|---|
+| 层级 | 底层 GPGPU，写 WGSL 着色器 | 高层算子图，声明式 `matmul()`/`softmax()` |
+| 控制力 | 完全控制（自定义量化、亚毫秒延迟） | 放弃细粒度控制，换取可移植性 |
+| 硬件路由 | GPU | **NPU → GPU → CPU 自动回退** |
+| 适合 | 自定义量化、最大兼容性 | Windows+NPU、电池续航优先、ONNX Runtime Web |
+
+2026-06 成熟度：WebGPU 全面可用（最可移植）；WebNN 在 Windows（DirectML）最成熟，Android Chrome 不支持、Firefox 仍在 Origin Trial、Safari 的 INT8 有 bug。**生产最佳实践是回退链：NPU → WebGPU → CPU**。
+
+#### 4. WasmEdge + WASI-NN：服务端/边缘模型推理
+
+- **WasmEdge**：CNCF 沙箱项目，轻量高性能 WebAssembly 运行时，云原生/边缘/AIoT 定位。
+- **WASI-NN 插件机制**：通过 `wasi_nn-ggml`（LLM）、`wasi_nn-openvino`（CV）、`wasi_nn-torch` 等插件，把推理能力暴露给 wasm 应用。
+- **架构**：wasm 应用通过 WASI-NN 标准接口调用宿主侧的后端；`wasi_nn-ggml` 底层对接 **llama.cpp 后端**，`wasi_nn-openvino` 对接 OpenVINO。模型加载、GPU/NPU 加速、内存管理都在宿主侧完成。
+- **典型用法**：`curl install.sh -- --plugin wasi_nn-ggml` 安装后，用 Rust/其他语言写 wasm 应用，通过 `GraphBuilder` 加载 GGUF 模型做推理，支持 GPU 加速（自动检测 CUDA）。
+
 ### 成功案例
 
 | 项目 | 说明 |
 |---|---|
 | **WebLLM**（`mlc-ai/web-llm`） | 高性能浏览器内 LLM 推理引擎，19k+ stars；TVM 编译链 + wasm 执行器 + WebGPU 加速；支持 Llama/Phi/Gemma/Mistral/Qwen 等 0.5B~8B 模型；OpenAI API 完全兼容 |
-| **llama.cpp wasm 分支**（`tangledgroup/llama-cpp-wasm`） | 把纯 C/C++ 的 llama.cpp 编译到 wasm，浏览器内跑量化 LLM，支持 WebGPU 后端 |
+| **llama.cpp wasm**（`tangledgroup/llama-cpp-wasm`） | 把纯 C/C++ 的 llama.cpp 编译到 wasm，浏览器内跑量化 LLM（**仅 CPU，无 WebGPU**，已于 2025-09 归档） |
 | **WasmEdge + WASI-NN** | CNCF 沙箱项目 WasmEdge 通过 `wasi_nn-ggml`（LLM）、`wasi_nn-openvino`（CV）插件，在服务端/边缘跑跨平台模型推理 |
 | **ONNX Runtime Web** | 微软 ONNX Runtime 提供 WebAssembly 后端，在浏览器跑 ONNX 模型 |
 | **browser-llm**（`andreinwald/browser-llm`） | 纯前端项目，用 WebGPU + wasm 把 Llama 3.2-1B 跑进浏览器，探索本地化、隐私化 AI |
@@ -294,9 +358,13 @@ wasm 跑 SQLite 的本质是：**把成熟 C 数据库内核编译成 wasm，用
 - [WASI 规范](https://github.com/WebAssembly/WASI)
 - [WebAssembly MDN 文档](https://developer.mozilla.org/docs/WebAssembly)
 - [WebLLM（浏览器内 LLM 推理）](https://github.com/mlc-ai/web-llm)
+- [WebLLM 论文（arXiv:2412.15803）](https://arxiv.org/abs/2412.15803)
+- [WebLLM 在线演示](https://chat.webllm.ai/)
+- [MLC LLM（WebLLM 上游）](https://github.com/mlc-ai/mlc-llm)
 - [llama.cpp wasm 分支](https://github.com/tangledgroup/llama-cpp-wasm)
 - [WasmEdge（WASI-NN 宿主）](https://wasmedge.org/)
 - [WASI-NN 提案](https://github.com/WebAssembly/wasi-nn)
+- [WebGPU vs WebNN 浏览器 LLM 加速对比（2026）](https://sachinsharma.dev/blogs/accelerating-llms-browser-webgpu-webnn)
 - [SQLite WASM 持久化方案](https://sqlite.org/wasm/doc/trunk/persistence.md)
 - [SQLite WASM 文档索引](https://sqlite.org/wasm/doc/trunk/index.md)
 - [DuckDB-Wasm](https://duckdb.org/why_duckdb)
