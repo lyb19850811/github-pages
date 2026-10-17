@@ -1,9 +1,11 @@
 ---
 layout: default
 ---
-<article class="note-detail">
-  <aside class="toc" id="toc"></aside>
+<aside class="toc" id="toc"></aside>
+<div class="toc-tab" id="toc-tab" aria-hidden="true"></div>
+<button type="button" class="toc-fab" id="toc-fab" aria-label="打开目录" aria-expanded="false">目录</button>
 
+<article class="note-detail">
   <div class="note-main">
     <p class="back"><a href="{{ '/notes/' | relative_url }}">← 返回研究笔记</a></p>
     <h1>{{ page.title }}</h1>

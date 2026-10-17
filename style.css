@@ -3,6 +3,8 @@
   --muted: #57606a;
   --accent: #0969da;
   --bg: #f6f8fa;
+  --nav-h: 5.5rem;
+  --toc-top: 11rem;
 }
 
 * { box-sizing: border-box; }
@@ -170,16 +172,9 @@ code {
 
 /* 研究正文 */
 .note-detail {
-  display: grid;
-  grid-template-columns: auto minmax(0, 42rem);
-  gap: 2.5rem;
-  justify-content: center;
-  align-items: start;
-  max-width: none;
+  display: block;
+  max-width: 42rem;
   margin: 0 auto;
-}
-.note-detail.no-toc {
-  grid-template-columns: minmax(0, 42rem);
 }
 .note-main { min-width: 0; }
 .back {
@@ -276,49 +271,160 @@ code {
 }
 .copy-link:hover { border-color: var(--accent); color: var(--accent); }
 
-/* 目录 */
+/* 目录：桌面端固定贴屏幕右侧，起始位置低于文章标题 */
 .toc {
-  position: sticky;
-  top: 1.5rem;
-  width: 200px;
-  max-height: calc(100vh - 3rem);
+  position: fixed;
+  top: var(--toc-top);
+  right: 1.5rem;
+  width: 220px;
+  max-height: calc(100vh - var(--toc-top) - 1.5rem);
   overflow-y: auto;
   font-size: .9rem;
+  z-index: 99;
+  transition: transform .25s ease, opacity .25s ease;
 }
-.toc-details {
-  border: 1px solid var(--bg);
-  border-radius: 8px;
-  padding: .6rem 1rem;
+
+/* 目录头部：标题 + 操作按钮 */
+.toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .5rem;
+}
+.toc-title { font-weight: 600; flex: none; }
+.toc-actions {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+.toc-actions button {
+  border: 1px solid #d0d7de;
   background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .72rem;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
 }
-.toc-details summary { cursor: pointer; font-weight: 600; color: var(--fg); }
-.toc-list { margin: .5rem 0 0; padding-left: 1.2rem; }
-.toc-list li { margin: .25rem 0; }
-.toc-list li.toc-h3 { padding-left: 1rem; }
-.toc-list a { color: var(--muted); text-decoration: none; }
-.toc-list a:hover, .toc-list a.active { color: var(--accent); }
+.toc-actions button:hover { border-color: var(--accent); color: var(--accent); }
 
-/* 目录：桌面端侧栏（隐藏折叠头、去边框） */
-@media (min-width: 769px) {
-  .toc-details {
-    border: none;
-    background: none;
-    padding: 0;
-    border-radius: 0;
-  }
-  .toc-details summary { display: none; }
+/* 目录树 */
+.toc-tree { list-style: none; margin: 0; padding: 0; }
+.toc-node { margin: .15rem 0; }
+.toc-row { display: flex; align-items: center; gap: .3rem; }
+.toc-arrow {
+  flex: none;
+  width: 1rem;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: .8rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.toc-arrow:hover { color: var(--accent); }
+.toc-arrow-empty { display: inline-block; width: 1rem; flex: none; }
+.toc-link { color: var(--muted); text-decoration: none; overflow-wrap: anywhere; }
+.toc-link:hover { color: var(--accent); }
+.toc-link.active { color: var(--accent); font-weight: 500; }
+.toc-children { list-style: none; margin: 0; padding: 0 0 0 1.3rem; }
+.toc-node.collapsed > .toc-children { display: none; }
+
+/* 目录隐藏：缩到窗口右缘，仅露出触发区 */
+body.toc-hidden .toc {
+  transform: translateX(calc(100% + 1.5rem));
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* 目录：移动端回退顶部折叠面板 */
+/* 右缘触发区（目录隐藏时可见，用于悬停恢复） */
+.toc-tab {
+  position: fixed;
+  top: var(--toc-top);
+  right: 0;
+  width: 24px;
+  height: calc(100vh - var(--toc-top) - 1.5rem);
+  z-index: 98;
+  display: none;
+  cursor: pointer;
+  background: var(--accent);
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 0 10px rgba(9, 105, 218, .35);
+  transition: width .2s ease, background .2s ease;
+}
+.toc-tab::after {
+  content: "目录";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  writing-mode: vertical-rl;
+  color: #fff;
+  font-size: .8rem;
+  letter-spacing: .2em;
+  white-space: nowrap;
+}
+.toc-tab:hover {
+  width: 32px;
+  background: var(--accent);
+  box-shadow: 0 0 14px rgba(9, 105, 218, .5);
+}
+body.toc-hidden .toc-tab { display: block; }
+
+/* 悬浮按钮（目录不可见时显示） */
+.toc-fab {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 1rem;
+  bottom: 1.25rem;
+  min-width: 3rem;
+  height: 3rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: .9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(9, 105, 218, .35);
+  z-index: 100;
+}
+/* 目录：移动端浮层 + 悬浮按钮 */
 @media (max-width: 768px) {
-  .note-detail { display: block; }
   .toc {
-    position: static;
-    width: auto;
-    max-height: none;
-    margin: 1rem 0 1.5rem;
+    right: 1rem;
+    bottom: 5rem;
+    width: 260px;
+    max-height: 60vh;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
+    padding: .75rem 1rem;
+    opacity: 0;
+    transform: translateY(.5rem);
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
   }
+  body.toc-open .toc {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .toc-tab { display: none !important; }
+  .toc-fab { display: flex; }
+  body.toc-open .toc-fab { display: none; }
 }
+
+/* 标题滚动定位顶部留白（正文居中，目录贴屏幕右缘） */
+.content h2, .content h3 { scroll-margin-top: calc(var(--nav-h) - 1rem); }
 
 /* 评论 */
 .comments { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--bg); }
