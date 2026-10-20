@@ -2,6 +2,8 @@
 report: 56
 title: "Oh My Pi（omp）使用深入指南：界面、命令、配置、扩展与 Skills/MCP"
 date: 2026-10-20
+updated: 2026-10-20
+updates: 1
 tags: [ai, coding-agent, cli]
 summary: 面向「怎么真正用起来」的 omp 操作手册：TUI 界面与快捷键、slash 命令与魔法关键词、配置分层与 profile、四种扩展面、Skills/MCP 的配置与排错。
 ---
@@ -46,6 +48,10 @@ omp acp                  # Agent Client Protocol server（Zed 等编辑器驱动
 | **thinking block** | 模型推理过程（默认可见） | `Ctrl+T` 折叠/展开；`Shift+Tab` 循环 thinking 档 |
 | **魔法关键词高亮** | 编辑期动画渐变、已发送消息静态渐变 | 仅视觉提示，识别本身独立于高亮 |
 
+![omp 主界面 TUI（启动欢迎屏）]({{ '/assets/images/omp-tui-welcome.png' | relative_url }})
+
+*omp 主界面：上方为 transcript 区（欢迎面板 + 右侧 Tips / LSP / Recent sessions 面板），底部为 status line（模型 · 思维档 · 目录 · 分支）与 editor/composer。*
+
 > 界面「读法」的关键是**状态 + 动作分离**：transcript 是只读的历史，editor 是待提交的输入，status line 是「当前谁在跑、用哪个模型、什么思维档」。魔法关键词（§2.4）即使关了 notice 注入，高亮仍在——高亮是视觉 affordance，不是触发开关。
 
 ### 1.2 快捷键速查（`app.*` action ID）
@@ -85,6 +91,10 @@ chord 大小写不敏感，写法同 UI（`Ctrl+P`、`Alt+Shift+P`、`Shift+Ente
 ### 1.3 Agent Hub：多智能体的看板
 
 `Alt+A` 打开 Agent Hub——当前会话所有子 agent 的**实时花名册 + 控制面**（主 agent 不列，它就是你面前的 ambient 会话视图）。roster 行显示 `running/idle/parked/aborted` 状态、模型角色、任务、cost、请求/工具调用/token 计数；按 `t` 切换扁平视图与父子树；宽终端侧边是 inspector（当前工具+参数、最后意图、重试状态、上下文窗口占用、血缘、output/patch 路径）。
+
+![omp Agent Hub（空会话）]({{ '/assets/images/omp-tui-agent-hub.png' | relative_url }})
+
+*Agent Hub（`Alt+A`）：左栏 roster + usage，右栏 inspector；截图为空会话（`No agents in this session`），底部为 Hub 快捷键栏。*
 
 | 键 | 动作 |
 |---|---|
