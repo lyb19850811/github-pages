@@ -30,7 +30,8 @@
         toc: toc,
         content: target.querySelector('.content'),
         fab: fab,
-        closable: false
+        tab: document.getElementById('toc-tab'),
+        closable: true
       });
     }
   }

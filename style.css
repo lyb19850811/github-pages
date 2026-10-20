@@ -585,11 +585,11 @@ body.toc-hidden .toc-tab { display: block; }
   }
 }
 
-/* 每日AI资讯：三栏阅读器（左列表 / 中内容 / 右目录） */
+/* 每日AI资讯：阅读器（左列表 / 中内容；目录固定屏幕右缘，复用研究笔记 TOC） */
 .news-layout {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr) 200px;
-  gap: 1.25rem;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 1.5rem;
   align-items: start;
   margin-top: .5rem;
 }
@@ -638,25 +638,6 @@ body.toc-hidden .toc-tab { display: block; }
 .news-content { min-width: 0; }
 .news-pane[hidden] { display: none; }
 
-.news-toc {
-  position: sticky;
-  top: var(--nav-h);
-}
-
-/* 桌面端：右侧目录贴三栏列内（sticky），覆盖固定右缘定位 */
-@media (min-width: 769px) {
-  .news-toc .toc {
-    position: static;
-    top: auto;
-    right: auto;
-    width: auto;
-    max-height: calc(100vh - var(--nav-h) - 1rem);
-    overflow-y: auto;
-    z-index: auto;
-    transition: none;
-  }
-}
-
 /* 移动端：单列堆叠，列表横向滑动，目录沿用悬浮面板 + FAB */
 @media (max-width: 768px) {
   .news-layout {
@@ -684,5 +665,4 @@ body.toc-hidden .toc-tab { display: block; }
   }
   .news-list-item .news-list-title { display: none; }
   .news-content { order: 2; }
-  .news-toc { position: static; order: 3; }
 }

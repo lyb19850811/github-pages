@@ -7,6 +7,10 @@ permalink: /news/
 <h1>每日AI资讯</h1>
 <p class="meta">共 {{ site.news | size }} 份 · 每日自动生成 · 全部含原文链接</p>
 
+<aside class="toc" id="toc"></aside>
+<div class="toc-tab" id="toc-tab" aria-hidden="true"></div>
+<button type="button" class="toc-fab" id="toc-fab" aria-label="打开目录" aria-expanded="false">目录</button>
+
 <div class="news-layout">
   <aside class="news-sidebar" aria-label="每日资讯列表">
     <ul class="news-list">
@@ -31,13 +35,7 @@ permalink: /news/
     </article>
   {% endfor %}
   </section>
-
-  <aside class="news-toc" aria-label="目录">
-    <aside class="toc" id="toc"></aside>
-  </aside>
 </div>
-
-<button type="button" class="toc-fab" id="toc-fab" aria-label="打开目录" aria-expanded="false">目录</button>
 
 <script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/news.js' | relative_url }}"></script>
