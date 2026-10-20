@@ -24,6 +24,9 @@
       a.classList.toggle('active', a.getAttribute('data-slug') === slug);
     });
 
+    var dateEl = document.getElementById('news-date');
+    if (dateEl) dateEl.textContent = slug;
+
     if (tocApi) { tocApi.destroy(); tocApi = null; }
     if (toc && window.Toc) {
       tocApi = window.Toc.build({

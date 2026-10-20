@@ -5,8 +5,7 @@ active: news
 body_class: news-list-hidden
 permalink: /news/
 ---
-<h1>每日AI资讯</h1>
-<p class="meta">共 {{ site.news | size }} 份 · 每日自动生成</p>
+<h1>每日AI资讯 <span id="news-date"></span></h1>
 
 <aside class="toc" id="toc"></aside>
 <div class="toc-tab" id="toc-tab" aria-hidden="true"></div>
@@ -15,7 +14,7 @@ permalink: /news/
 <div class="news-list-tab" id="news-list-tab" aria-hidden="true"></div>
 
 <div class="news-layout">
-  <aside class="news-sidebar" aria-label="每日资讯列表">
+  <aside class="news-sidebar" aria-label="每日AI资讯列表">
     <div class="news-list-header">
       <span class="news-list-heading">往期资讯</span>
       <button type="button" class="news-list-close" id="news-list-close" aria-label="隐藏列表">隐藏</button>

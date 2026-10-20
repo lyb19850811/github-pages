@@ -664,6 +664,7 @@ body.toc-hidden .toc-tab { display: block; }
 
 .news-content { min-width: 0; }
 .news-pane[hidden] { display: none; }
+#news-date { color: var(--muted); font-size: .72em; font-weight: 400; }
 
 /* 列表隐藏（桌面端）：默认隐藏，仅露出左缘触发条 */
 @media (min-width: 769px) {
