@@ -7,13 +7,37 @@ permalink: /news/
 <h1>每日AI资讯</h1>
 <p class="meta">共 {{ site.news | size }} 份 · 每日自动生成 · 全部含原文链接</p>
 
-<div class="notes">
-{% assign news_sorted = site.news | sort: 'date' | reverse %}
-{% for item in news_sorted %}
-  <article class="note">
-    <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
-    <p class="meta"><time datetime="{{ item.date | date: '%Y-%m-%d' }}">{{ item.date | date: '%Y-%m-%d' }}</time></p>
-    <p class="summary">{{ item.summary }}</p>
-  </article>
-{% endfor %}
+<div class="news-layout">
+  <aside class="news-sidebar" aria-label="每日资讯列表">
+    <ul class="news-list">
+    {% assign news_sorted = site.news | sort: 'date' | reverse %}
+    {% for item in news_sorted %}
+      {% assign key = item.date | date: '%Y-%m-%d' %}
+      <li>
+        <a class="news-list-item" href="#{{ key }}" data-slug="{{ key }}">
+          <time datetime="{{ key }}">{{ key }}</time>
+          <span class="news-list-title">{{ item.summary }}</span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </aside>
+
+  <section class="news-content">
+  {% for item in news_sorted %}
+    {% assign key = item.date | date: '%Y-%m-%d' %}
+    <article class="news-pane" id="news-{{ key }}" data-slug="{{ key }}">
+      <div class="content">{{ item.content }}</div>
+    </article>
+  {% endfor %}
+  </section>
+
+  <aside class="news-toc" aria-label="目录">
+    <aside class="toc" id="toc"></aside>
+  </aside>
 </div>
+
+<button type="button" class="toc-fab" id="toc-fab" aria-label="打开目录" aria-expanded="false">目录</button>
+
+<script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/news.js' | relative_url }}"></script>

@@ -584,3 +584,105 @@ body.toc-hidden .toc-tab { display: block; }
     padding: 1rem 0;
   }
 }
+
+/* 每日AI资讯：三栏阅读器（左列表 / 中内容 / 右目录） */
+.news-layout {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) 200px;
+  gap: 1.25rem;
+  align-items: start;
+  margin-top: .5rem;
+}
+
+.news-sidebar {
+  position: sticky;
+  top: var(--nav-h);
+  max-height: calc(100vh - var(--nav-h) - 1rem);
+  overflow-y: auto;
+}
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.news-list-item {
+  display: block;
+  padding: .5rem .65rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+}
+.news-list-item time {
+  display: block;
+  font-weight: 600;
+  font-size: .88rem;
+  color: var(--fg);
+}
+.news-list-item .news-list-title {
+  display: block;
+  font-size: .76rem;
+  color: var(--muted);
+  margin-top: .1rem;
+}
+.news-list-item:hover { background: var(--bg); }
+.news-list-item.active {
+  background: var(--bg);
+  border-color: #d0d7de;
+}
+.news-list-item.active time { color: var(--accent); }
+
+.news-content { min-width: 0; }
+.news-pane[hidden] { display: none; }
+
+.news-toc {
+  position: sticky;
+  top: var(--nav-h);
+}
+
+/* 桌面端：右侧目录贴三栏列内（sticky），覆盖固定右缘定位 */
+@media (min-width: 769px) {
+  .news-toc .toc {
+    position: static;
+    top: auto;
+    right: auto;
+    width: auto;
+    max-height: calc(100vh - var(--nav-h) - 1rem);
+    overflow-y: auto;
+    z-index: auto;
+    transition: none;
+  }
+}
+
+/* 移动端：单列堆叠，列表横向滑动，目录沿用悬浮面板 + FAB */
+@media (max-width: 768px) {
+  .news-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .news-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    order: 1;
+  }
+  .news-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: .4rem;
+    padding-bottom: .25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .news-list-item {
+    flex: none;
+    white-space: nowrap;
+    background: #fff;
+    border-color: #d0d7de;
+  }
+  .news-list-item .news-list-title { display: none; }
+  .news-content { order: 2; }
+  .news-toc { position: static; order: 3; }
+}
