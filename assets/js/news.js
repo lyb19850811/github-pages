@@ -50,4 +50,18 @@
   var initial = (window.location.hash || '').replace('#', '');
   if (!slugByPane[initial]) initial = items[0].getAttribute('data-slug');
   activate(initial);
+
+  // 左侧资讯列表：可隐藏 / 悬停恢复（默认隐藏态由 body 初始 class 提供）
+  var listClose = document.getElementById('news-list-close');
+  var listTab = document.getElementById('news-list-tab');
+  if (listClose) {
+    listClose.addEventListener('click', function () {
+      document.body.classList.add('news-list-hidden');
+    });
+  }
+  if (listTab) {
+    listTab.addEventListener('mouseenter', function () {
+      document.body.classList.remove('news-list-hidden');
+    });
+  }
 })();

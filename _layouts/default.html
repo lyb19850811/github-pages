@@ -30,7 +30,7 @@
     onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
   {% endif %}
 </head>
-<body>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
   <nav>
     <a href="{{ '/' | relative_url }}"{% if page.active == 'index' %} class="active"{% endif %}>首页</a>
     <a href="{{ '/notes/' | relative_url }}"{% if page.active == 'notes' %} class="active"{% endif %}>研究笔记</a>

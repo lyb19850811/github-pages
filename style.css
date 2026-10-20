@@ -599,7 +599,35 @@ body.toc-hidden .toc-tab { display: block; }
   max-height: calc(100vh - var(--toc-top) - 1.5rem);
   overflow-y: auto;
   z-index: 98;
+  transition: transform .25s ease, opacity .25s ease;
 }
+
+.news-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .4rem;
+}
+.news-list-heading {
+  font-weight: 600;
+  font-size: .8rem;
+  color: var(--fg);
+  flex: none;
+}
+.news-list-close {
+  border: 1px solid #d0d7de;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .72rem;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.news-list-close:hover { border-color: var(--accent); color: var(--accent); }
+
 .news-list {
   list-style: none;
   margin: 0;
@@ -638,8 +666,52 @@ body.toc-hidden .toc-tab { display: block; }
 .news-content { min-width: 0; }
 .news-pane[hidden] { display: none; }
 
+/* 列表隐藏（桌面端）：缩到窗口左缘，仅露出触发条 */
+@media (min-width: 1331px) {
+  body.news-list-hidden .news-sidebar {
+    transform: translateX(calc(-100% - 1.5rem));
+    opacity: 0;
+    pointer-events: none;
+  }
+  body.news-list-hidden .news-list-tab { display: block; }
+}
+
+/* 左缘触发条（列表隐藏时可见，悬停恢复） */
+.news-list-tab {
+  position: fixed;
+  top: var(--toc-top);
+  left: 0;
+  width: 24px;
+  height: calc(100vh - var(--toc-top) - 1.5rem);
+  z-index: 98;
+  display: none;
+  cursor: pointer;
+  background: var(--accent);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 0 10px rgba(9, 105, 218, .35);
+  transition: width .2s ease, background .2s ease;
+}
+.news-list-tab::after {
+  content: "往期";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  writing-mode: vertical-rl;
+  color: #fff;
+  font-size: .8rem;
+  letter-spacing: .2em;
+  white-space: nowrap;
+}
+.news-list-tab:hover {
+  width: 32px;
+  background: var(--accent);
+  box-shadow: 0 0 14px rgba(9, 105, 218, .5);
+}
+
 /* 视口不足以容纳左缘列表时，退回顶部横向条，内容仍全宽 */
 @media (max-width: 1330px) {
+  .news-list-header { display: none; }
   .news-sidebar {
     position: static;
     width: auto;

@@ -2,6 +2,7 @@
 layout: default
 title: 每日AI资讯
 active: news
+body_class: news-list-hidden
 permalink: /news/
 ---
 <h1>每日AI资讯</h1>
@@ -11,8 +12,14 @@ permalink: /news/
 <div class="toc-tab" id="toc-tab" aria-hidden="true"></div>
 <button type="button" class="toc-fab" id="toc-fab" aria-label="打开目录" aria-expanded="false">目录</button>
 
+<div class="news-list-tab" id="news-list-tab" aria-hidden="true"></div>
+
 <div class="news-layout">
   <aside class="news-sidebar" aria-label="每日资讯列表">
+    <div class="news-list-header">
+      <span class="news-list-heading">往期资讯</span>
+      <button type="button" class="news-list-close" id="news-list-close" aria-label="隐藏列表">隐藏</button>
+    </div>
     <ul class="news-list">
     {% assign news_sorted = site.news | sort: 'date' | reverse %}
     {% for item in news_sorted %}
