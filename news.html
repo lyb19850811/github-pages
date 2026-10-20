@@ -1,0 +1,19 @@
+---
+layout: default
+title: 每日AI资讯
+active: news
+permalink: /news/
+---
+<h1>每日AI资讯</h1>
+<p class="meta">共 {{ site.news | size }} 份 · 每日自动生成 · 全部含原文链接</p>
+
+<div class="notes">
+{% assign news_sorted = site.news | sort: 'date' | reverse %}
+{% for item in news_sorted %}
+  <article class="note">
+    <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+    <p class="meta"><time datetime="{{ item.date | date: '%Y-%m-%d' }}">{{ item.date | date: '%Y-%m-%d' }}</time></p>
+    <p class="summary">{{ item.summary }}</p>
+  </article>
+{% endfor %}
+</div>

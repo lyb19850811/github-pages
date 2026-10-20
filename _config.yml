@@ -10,8 +10,13 @@ future: true
 plugins:
   - jekyll-sitemap
   - jekyll-feed
+collections:
+  news:
+    output: true
+    permalink: /news/:name/
 exclude:
   - README.md
+  - scripts
 
 defaults:
   - scope:
@@ -20,3 +25,8 @@ defaults:
     values:
       layout: research
       math: true
+  - scope:
+      path: ""
+      type: "news"
+    values:
+      layout: news
