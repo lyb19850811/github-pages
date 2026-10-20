@@ -585,20 +585,20 @@ body.toc-hidden .toc-tab { display: block; }
   }
 }
 
-/* 每日AI资讯：阅读器（左列表 / 中内容；目录固定屏幕右缘，复用研究笔记 TOC） */
+/* 每日AI资讯：阅读器（列表固定左缘 / 内容全宽 / 目录固定右缘） */
 .news-layout {
-  display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  gap: 1.5rem;
-  align-items: start;
+  display: block;
   margin-top: .5rem;
 }
 
 .news-sidebar {
-  position: sticky;
-  top: var(--nav-h);
-  max-height: calc(100vh - var(--nav-h) - 1rem);
+  position: fixed;
+  left: 1.5rem;
+  top: var(--toc-top);
+  width: 160px;
+  max-height: calc(100vh - var(--toc-top) - 1.5rem);
   overflow-y: auto;
+  z-index: 98;
 }
 .news-list {
   list-style: none;
@@ -638,17 +638,13 @@ body.toc-hidden .toc-tab { display: block; }
 .news-content { min-width: 0; }
 .news-pane[hidden] { display: none; }
 
-/* 移动端：单列堆叠，列表横向滑动，目录沿用悬浮面板 + FAB */
-@media (max-width: 768px) {
-  .news-layout {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+/* 视口不足以容纳左缘列表时，退回顶部横向条，内容仍全宽 */
+@media (max-width: 1330px) {
   .news-sidebar {
     position: static;
+    width: auto;
     max-height: none;
     overflow: visible;
-    order: 1;
   }
   .news-list {
     flex-direction: row;
@@ -664,5 +660,5 @@ body.toc-hidden .toc-tab { display: block; }
     border-color: #d0d7de;
   }
   .news-list-item .news-list-title { display: none; }
-  .news-content { order: 2; }
+  .news-content { margin-top: .75rem; }
 }
