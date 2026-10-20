@@ -599,7 +599,6 @@ body.toc-hidden .toc-tab { display: block; }
   max-height: calc(100vh - var(--toc-top) - 1.5rem);
   overflow-y: auto;
   z-index: 98;
-  transition: transform .25s ease, opacity .25s ease;
 }
 
 .news-list-header {
@@ -666,13 +665,9 @@ body.toc-hidden .toc-tab { display: block; }
 .news-content { min-width: 0; }
 .news-pane[hidden] { display: none; }
 
-/* 列表隐藏（桌面端）：缩到窗口左缘，仅露出触发条 */
-@media (min-width: 1331px) {
-  body.news-list-hidden .news-sidebar {
-    transform: translateX(calc(-100% - 1.5rem));
-    opacity: 0;
-    pointer-events: none;
-  }
+/* 列表隐藏（桌面端）：默认隐藏，仅露出左缘触发条 */
+@media (min-width: 769px) {
+  body.news-list-hidden .news-sidebar { display: none; }
   body.news-list-hidden .news-list-tab { display: block; }
 }
 
