@@ -44,4 +44,23 @@
       closable: true
     });
   }
+
+  // PV/UV 统计：上报一次访问并从后端读取展示
+  // 部署后把下方地址替换成你自己的 Cloudflare Worker 域名
+  var PVUV_ENDPOINT = 'https://your-worker-name.workers.dev';
+  var pvuvEl = document.getElementById('pv-uv');
+  if (pvuvEl) {
+    fetch(PVUV_ENDPOINT + '/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: window.location.pathname })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        pvuvEl.textContent = '👁 ' + d.pv + ' 阅读 · ' + d.uv + ' 访客';
+      })
+      .catch(function () {
+        pvuvEl.style.display = 'none';
+      });
+  }
 })();

@@ -264,6 +264,13 @@ code {
   margin-right: .5rem;
 }
 
+/* PV/UV 统计 */
+.pv-uv {
+  color: var(--muted);
+  font-size: .85rem;
+  margin-right: .5rem;
+}
+
 /* 文章工具栏 */
 .article-tools { margin: .75rem 0 .25rem; }
 .copy-link {

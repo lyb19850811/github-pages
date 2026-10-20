@@ -1,0 +1,8 @@
+name = "pv-uv-tracker"
+main = "src/index.js"
+compatibility_date = "2026-10-20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pv-uv"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"

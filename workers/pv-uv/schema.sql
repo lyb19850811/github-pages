@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS visits (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  path TEXT NOT NULL,
+  ip TEXT NOT NULL,
+  day TEXT NOT NULL,
+  ts INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_visits_path ON visits(path);
+CREATE INDEX IF NOT EXISTS idx_visits_uv ON visits(path, day, ip);
