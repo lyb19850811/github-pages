@@ -24,7 +24,10 @@ DST="${REPO_DIR}/_news/${DATE}.md"
   printf 'date: %s\n' "${DATE}"
   printf 'summary: "%s"\n' "${SUMMARY}"
   printf -- '---\n\n'
-  cat "${SRC}"
+  printf '# %s\n\n' "${DATE}"
+  # 日报正文前 4 行为「标题 + 空行 + 副标题 + 空行」；站点页已有「每日AI资讯」标题，
+  # 此处仅保留日期作 pane 标题，去掉重复的「AI 资讯日报」与「自动生成…」副标题。
+  tail -n +5 "${SRC}"
 } > "${DST}"
 
 echo "已写入 ${DST}"
