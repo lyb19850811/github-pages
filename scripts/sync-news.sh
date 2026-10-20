@@ -4,7 +4,7 @@
 set -euo pipefail
 
 DATE="${1:-$(date +%F)}"
-SKILL_DIR="${HOME}/.workbuddy/skills/ai-news-daily"
+SKILL_DIR="${HOME}/.omp/agent/skills/ai-news-daily"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 mkdir -p "${REPO_DIR}/_news"

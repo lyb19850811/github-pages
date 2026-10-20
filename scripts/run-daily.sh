@@ -5,7 +5,7 @@ set -euo pipefail
 export PATH="${HOME}/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export LANG="${LANG:-en_US.UTF-8}"
 
-SKILL_DIR="${HOME}/.workbuddy/skills/ai-news-daily"
+SKILL_DIR="${HOME}/.omp/agent/skills/ai-news-daily"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOG="${SKILL_DIR}/run_daily.log"
 OMP_BIN="${HOME}/.local/bin/omp"
