@@ -46,8 +46,7 @@
   }
 
   // PV/UV 统计：上报一次访问并从后端读取展示
-  // 部署后把下方地址替换成你自己的 Cloudflare Worker 域名
-  var PVUV_ENDPOINT = 'https://your-worker-name.workers.dev';
+  var PVUV_ENDPOINT = 'https://pv-uv-tracker.lyb19850811.workers.dev';
   var pvuvEl = document.getElementById('pv-uv');
   if (pvuvEl) {
     fetch(PVUV_ENDPOINT + '/track', {

@@ -5,4 +5,4 @@ compatibility_date = "2026-10-20"
 [[d1_databases]]
 binding = "DB"
 database_name = "pv-uv"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "6cab3a74-f0f8-4649-a4a7-873b1eee0eaa"
