@@ -46,15 +46,6 @@ nav {
   font-family: var(--font-sans);
 }
 
-nav::before {
-  content: "研究日志";
-  margin-right: auto;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--fg);
-}
-
 nav a {
   color: var(--muted);
   text-decoration: none;
@@ -619,10 +610,6 @@ body.toc-hidden .toc-tab { display: block; }
     flex-wrap: wrap;
     gap: .4rem 1rem;
     padding: 1rem 0;
-  }
-  nav::before {
-    flex-basis: 100%;
-    margin-right: 0;
   }
 }
 
