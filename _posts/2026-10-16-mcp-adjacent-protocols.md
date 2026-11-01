@@ -25,7 +25,7 @@ math: false
 | 原生 function calling | 原生：单厂商单模型 | 模型直接调宿主定义的函数，最简 | 各厂商私有 |
 | Agent Skills | 教工作流：指令 + 支持文件 | 把「怎么做一件事」教给 agent，不接外部能力 | 宿主本地 / Skills over MCP |
 
-> 承接上一篇《协议演进》的格局图：MCP 管「一个 agent 的触手」，A2A 管「多个 agent 的手拉手」。ACP（Agent Client Protocol）已并入 A2A，两者均入 Linux Foundation。
+> 承接上一篇《协议演进》的格局图：MCP 管「一个 agent 的触手」，A2A 管「多个 agent 的手拉手」。IBM 的 ACP（Agent Communication Protocol）已于 2025-08 并入 A2A，两者均入 Linux Foundation；注意 Zed 的「Agent Client Protocol」是另一个无关的同名缩写协议。
 
 ## 2. 四个反向结论（L4 核心）
 
@@ -93,9 +93,9 @@ Agent / Host
 
 **已由原文支撑（grounded）**：A2A = Google 发起、捐给 Linux Foundation 的开放标准，跨框架（LangGraph/CrewAI/Google ADK/Genkit）agent 发现能力并安全协作（`a2a-protocol.org`）；MCP 的垂直定位、授权/生态能力（前六篇已证）；Skills 的「指令 + 支持文件」语义与「读 SKILL.md ≠ 激活」（方向 D）。
 
-**待验证 / 推断（inference）**：
-- **「A2A 的反向结论」**：A2A 的「发现/协商」原语（如 agent card）我未读其规范原文，只据官网「discover capabilities + collaborate」推断；「紧耦合编排用框架不用 A2A」这条反论需对照 A2A spec 的意图再定稿。
-- **「ACP 已并入 A2A」**：承接上一篇《协议演进》的既有结论，本篇未重新核实（SEP-414 的参考里 ACP 还以 `agentclientprotocol/agent-client-protocol` 独立出现，时间点上可能早于并入）。
+**已核实 / 更正（2026-11-01，承接《A2A 协议深度研究》）**：
+- **「A2A 的反向结论」已定稿**：对照 A2A 规范 §3.4/§8 核实，发现原语 = Agent Card（`/.well-known/agent-card.json`）、协商原语 = `supportedInterfaces`/`capabilities`/`securitySchemes`/`skills`；「紧耦合编排用框架不用 A2A」的反论成立。
+- **「ACP 已并入 A2A」已核实并更正**：并入的是 IBM Research 的 **Agent Communication Protocol**（`i-am-bee/acp`，为 BeeAI 平台而建），2025-08-29 并入；**不是** Zed 的 `agentclientprotocol/agent-client-protocol`（Agent Client Protocol，面向 IDE↔agent，仍独立活跃）。本篇此前把两者混为一谈，现予更正。
 
 **下一篇衔接（方向 H 生产可观测）**：本篇是「MCP 之外的选型」，方向 H 回到 MCP 内部的生产化——可观测性、缓存、版本兼容。
 
