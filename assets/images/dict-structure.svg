@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="372" viewBox="0 0 660 372" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <rect width="660" height="372" fill="#f8fafc" rx="8"/>
+
+  <text x="20" y="28" font-size="17" font-weight="bold" fill="#0f172a">dict 的结构：两个数组（紧凑字典，已插入 0 / 8 / 1）</text>
+
+  <!-- dk_indices header -->
+  <text x="20" y="50" font-size="13" font-weight="bold" fill="#0f172a">dk_indices —— 真哈希表</text>
+  <text x="20" y="66" font-size="12" fill="#64748b">8 个槽，每槽存「entry 下标」；空槽存 EMPTY(-1)</text>
+
+  <!-- 8 slots -->
+  <!-- slot 0 -->
+  <rect x="20" y="76" width="68" height="66" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="54" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 0</text>
+  <text x="54" y="126" text-anchor="middle" font-size="15" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">→ 0</text>
+  <!-- slot 1 -->
+  <rect x="92" y="76" width="68" height="66" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="126" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 1</text>
+  <text x="126" y="126" text-anchor="middle" font-size="15" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">→ 1</text>
+  <!-- slots 2-5 empty -->
+  <rect x="164" y="76" width="68" height="66" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="198" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 2</text>
+  <text x="198" y="126" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#94a3b8">EMPTY</text>
+  <rect x="236" y="76" width="68" height="66" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="270" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 3</text>
+  <text x="270" y="126" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#94a3b8">EMPTY</text>
+  <rect x="308" y="76" width="68" height="66" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="342" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 4</text>
+  <text x="342" y="126" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#94a3b8">EMPTY</text>
+  <rect x="380" y="76" width="68" height="66" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="414" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 5</text>
+  <text x="414" y="126" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#94a3b8">EMPTY</text>
+  <!-- slot 6 -->
+  <rect x="452" y="76" width="68" height="66" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="486" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 6</text>
+  <text x="486" y="126" text-anchor="middle" font-size="15" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">→ 2</text>
+  <!-- slot 7 -->
+  <rect x="524" y="76" width="68" height="66" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="558" y="96" text-anchor="middle" font-size="12" fill="#64748b">槽 7</text>
+  <text x="558" y="126" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#94a3b8">EMPTY</text>
+
+  <!-- arrows slot -> entry -->
+  <path d="M54,142 C54,175 164,175 164,206" fill="none" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <path d="M126,142 C126,175 330,175 330,206" fill="none" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <path d="M486,142 C486,175 496,175 496,206" fill="none" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- dk_entries header -->
+  <text x="20" y="196" font-size="13" font-weight="bold" fill="#0f172a">dk_entries —— 密集条目数组</text>
+  <text x="20" y="212" font-size="12" fill="#64748b">按插入顺序 append；字符串键会省掉 hash 字段（见 §6.2）</text>
+
+  <!-- entry 0 -->
+  <rect x="89" y="224" width="150" height="100" rx="6" fill="#ffffff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="164" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#4f46e5">entry 0</text>
+  <text x="102" y="266" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">hash  = 0</text>
+  <text x="102" y="286" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">key   = 0</text>
+  <text x="102" y="306" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">value = 'A'</text>
+
+  <!-- entry 1 -->
+  <rect x="255" y="224" width="150" height="100" rx="6" fill="#ffffff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="330" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#4f46e5">entry 1</text>
+  <text x="268" y="266" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">hash  = 8</text>
+  <text x="268" y="286" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">key   = 8</text>
+  <text x="268" y="306" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">value = 'B'</text>
+
+  <!-- entry 2 -->
+  <rect x="421" y="224" width="150" height="100" rx="6" fill="#ffffff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="496" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#4f46e5">entry 2</text>
+  <text x="434" y="266" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">hash  = 1</text>
+  <text x="434" y="286" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">key   = 1</text>
+  <text x="434" y="306" font-size="12.5" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">value = 'C'</text>
+
+  <text x="20" y="348" font-size="12" fill="#64748b">要点：槽位（dk_indices）≠ 插入序；插入序 = dk_entries 的 append 顺序（0 → 8 → 1）。dk_entries 有 5 个可用槽（USABLE_FRACTION(8)=5），用了 3 个。</text>
+</svg>

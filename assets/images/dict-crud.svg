@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="500" viewBox="0 0 660 500" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="660" height="500" fill="#f8fafc" rx="8"/>
+
+  <text x="20" y="24" font-size="17" font-weight="bold" fill="#0f172a">增删改查四步：底层哈希表如何变化（初始已插入 0 / 8 / 1）</text>
+
+  <!-- ============ Panel 1: 查 ============ -->
+  <rect x="20" y="38" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="34" y="62" font-size="14" font-weight="bold" fill="#0f172a">① 查 d[8]（lookup）</text>
+
+  <!-- indices strip -->
+  <rect x="34" y="72" width="31" height="42" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="49" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">0</text>
+  <text x="49" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#92400e">0</text>
+  <rect x="67" y="72" width="31" height="42" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="82" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">1</text>
+  <text x="82" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">1</text>
+  <rect x="100" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="115" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">2</text>
+  <text x="115" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="133" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="148" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">3</text>
+  <text x="148" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="166" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="181" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">4</text>
+  <text x="181" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="199" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="214" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">5</text>
+  <text x="214" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="232" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="247" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">6</text>
+  <text x="247" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">2</text>
+  <rect x="265" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="280" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">7</text>
+  <text x="280" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+
+  <text x="34" y="136" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#64748b">entries: [0:'A', 8:'B', 1:'C']</text>
+  <text x="34" y="160" font-size="12" fill="#0f172a">hash(8)=8 → 槽 0，key 0 ≠ 8，不匹配</text>
+  <text x="34" y="178" font-size="12" fill="#0f172a">探测 → 槽 1，key 8 == 8 ✓ <tspan fill="#16a34a" font-weight="bold">命中</tspan></text>
+  <text x="34" y="196" font-size="12" fill="#64748b">返回 dk_entries[1].value = 'B'（只读，表不变）</text>
+
+  <!-- ============ Panel 2: 改 ============ -->
+  <rect x="335" y="38" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="349" y="62" font-size="14" font-weight="bold" fill="#0f172a">② 改 d[8]='B2'（update）</text>
+
+  <rect x="349" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="364" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">0</text>
+  <text x="364" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">0</text>
+  <rect x="382" y="72" width="31" height="42" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="397" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">1</text>
+  <text x="397" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">1</text>
+  <rect x="415" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="430" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">2</text>
+  <text x="430" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="448" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="463" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">3</text>
+  <text x="463" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="481" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="496" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">4</text>
+  <text x="496" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="514" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="529" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">5</text>
+  <text x="529" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="547" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="562" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">6</text>
+  <text x="562" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">2</text>
+  <rect x="580" y="72" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="595" y="85" text-anchor="middle" font-size="8" fill="#94a3b8">7</text>
+  <text x="595" y="104" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+
+  <text x="349" y="136" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#64748b">entries: [0:'A', 8:'B', 1:'C']</text>
+  <text x="349" y="160" font-size="12" fill="#0f172a">先按「查」找到 entry 1</text>
+  <text x="349" y="178" font-size="12" fill="#0f172a">就地改 value：'B' → <tspan fill="#16a34a" font-weight="bold">'B2'</tspan></text>
+  <text x="349" y="196" font-size="12" fill="#64748b">dk_indices 完全不动——结构零变化</text>
+
+  <!-- ============ Panel 3: 增 ============ -->
+  <rect x="20" y="240" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="34" y="264" font-size="14" font-weight="bold" fill="#0f172a">③ 增 d[16]='D'（insert）</text>
+
+  <rect x="34" y="274" width="31" height="42" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="49" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">0</text>
+  <text x="49" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#92400e">0</text>
+  <rect x="67" y="274" width="31" height="42" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="82" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">1</text>
+  <text x="82" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#92400e">1</text>
+  <rect x="100" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="115" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">2</text>
+  <text x="115" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="133" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="148" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">3</text>
+  <text x="148" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="166" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="181" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">4</text>
+  <text x="181" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="199" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="214" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">5</text>
+  <text x="214" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="232" y="274" width="31" height="42" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="247" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">6</text>
+  <text x="247" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#92400e">2</text>
+  <rect x="265" y="274" width="31" height="42" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="280" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">7</text>
+  <text x="280" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">3</text>
+
+  <text x="34" y="338" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#64748b">entries: [0:'A', 8:'B', 1:'C', <tspan fill="#16a34a" font-weight="bold">16:'D'</tspan>]</text>
+  <text x="34" y="362" font-size="12" fill="#0f172a">hash(16)=16 → 槽 0、1、6 都被占</text>
+  <text x="34" y="380" font-size="12" fill="#0f172a">探测到槽 7（空）→ dk_indices[7] = <tspan fill="#16a34a" font-weight="bold">3</tspan></text>
+  <text x="34" y="398" font-size="12" fill="#64748b">dk_entries 追加 entry 3 {16:'D'}（插入序保住）</text>
+
+  <!-- ============ Panel 4: 删 ============ -->
+  <rect x="335" y="240" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="349" y="264" font-size="14" font-weight="bold" fill="#0f172a">④ 删 del d[8]（delete）</text>
+
+  <rect x="349" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="364" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">0</text>
+  <text x="364" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">0</text>
+  <rect x="382" y="274" width="31" height="42" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="397" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">1</text>
+  <text x="397" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#b91c1c">D</text>
+  <rect x="415" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="430" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">2</text>
+  <text x="430" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="448" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="463" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">3</text>
+  <text x="463" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="481" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="496" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">4</text>
+  <text x="496" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="514" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="529" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">5</text>
+  <text x="529" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+  <rect x="547" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="562" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">6</text>
+  <text x="562" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" font-weight="bold" fill="#166534">2</text>
+  <rect x="580" y="274" width="31" height="42" rx="4" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="595" y="287" text-anchor="middle" font-size="8" fill="#94a3b8">7</text>
+  <text x="595" y="306" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#cbd5e1">—</text>
+
+  <text x="349" y="338" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#64748b">entries: [0:'A', <tspan fill="#dc2626" text-decoration="line-through">8:'B'</tspan>, 1:'C']</text>
+  <text x="349" y="362" font-size="12" fill="#0f172a">hash(8)=8 → 槽 0 → 槽 1 命中</text>
+  <text x="349" y="380" font-size="12" fill="#0f172a">dk_indices[1] 标 <tspan fill="#dc2626" font-weight="bold">DUMMY（墓碑 D）</tspan></text>
+  <text x="349" y="398" font-size="12" fill="#64748b">dk_entries[1] 的 key/value 清空（槽位留标记）</text>
+
+  <!-- footer: tombstone rationale -->
+  <rect x="20" y="440" width="620" height="52" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+  <text x="36" y="462" font-size="12.5" fill="#92400e"><tspan font-weight="bold">⚠ 删除为什么留「墓碑」而不置空？</tspan> key=1 当初是「探测时跳过槽 1」才落到槽 6 的。</text>
+  <text x="36" y="480" font-size="12.5" fill="#92400e">若把槽 1 置成 EMPTY，将来查 key=1 会在槽 1 提前终止、误判「不存在」。DUMMY 是在告诉查找：继续往下探测。</text>
+</svg>
