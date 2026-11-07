@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="400" viewBox="0 0 660 400" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="660" height="400" fill="#f8fafc" rx="8"/>
+  <text x="20" y="26" font-size="17" font-weight="bold" fill="#0f172a">deque 结构：固定长度块（BLOCKLEN=64）串成的双向链表</text>
+
+  <!-- deque header box -->
+  <rect x="20" y="40" width="620" height="58" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="36" y="62" font-size="13" font-weight="bold" fill="#0f172a">dequeobject（结构体 232 字节）</text>
+  <text x="36" y="82" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">leftblock · rightblock · <tspan fill="#16a34a" font-weight="bold">leftindex</tspan> · <tspan fill="#d97706" font-weight="bold">rightindex</tspan> · maxlen · state · freeblocks[16]</text>
+
+  <!-- pointer arrows from header to blocks -->
+  <path d="M150,98 C150,130 105,130 105,160" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ap)"/>
+  <path d="M560,98 C560,130 555,130 555,160" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ap)"/>
+
+  <!-- block 0 -->
+  <rect x="20" y="168" width="170" height="88" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="105" y="188" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">block 0</text>
+  <rect x="34" y="198" width="142" height="24" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text x="105" y="214" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#64748b">data[0..31] 空 · data[32..63]</text>
+  <text x="105" y="246" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#16a34a">▲ leftindex = 32（元素 0 在此）</text>
+
+  <!-- block 1 -->
+  <rect x="245" y="168" width="170" height="88" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="330" y="188" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">block 1</text>
+  <rect x="259" y="198" width="142" height="24" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="330" y="214" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#166534">data[0..63] 全满（64 元素）</text>
+  <text x="330" y="246" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#64748b">元素 32 ~ 95</text>
+
+  <!-- block 2 -->
+  <rect x="470" y="168" width="170" height="88" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="555" y="188" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">block 2</text>
+  <rect x="484" y="198" width="142" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="555" y="214" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#92400e">data[0..33] 已用 · data[34..63] 空</text>
+  <text x="555" y="246" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#d97706">▲ rightindex = 33（元素 129 在此）</text>
+
+  <!-- links between blocks -->
+  <line x1="190" y1="212" x2="245" y2="212" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#ap)"/>
+  <line x1="245" y1="228" x2="190" y2="228" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="217" y="204" text-anchor="middle" font-size="9" fill="#4f46e5">rightlink</text>
+  <text x="217" y="242" text-anchor="middle" font-size="9" fill="#94a3b8">leftlink</text>
+
+  <line x1="415" y1="212" x2="470" y2="212" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#ap)"/>
+  <line x1="470" y1="228" x2="415" y2="228" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="442" y="204" text-anchor="middle" font-size="9" fill="#4f46e5">rightlink</text>
+  <text x="442" y="242" text-anchor="middle" font-size="9" fill="#94a3b8">leftlink</text>
+
+  <!-- footer -->
+  <text x="20" y="288" font-size="12" fill="#0f172a"><tspan font-weight="bold">三个要点：</tspan>① 数据存于「固定长度块」，块间用 leftlink/rightlink 双向链接；② <tspan fill="#16a34a">leftindex</tspan> 指向第一个元素、<tspan fill="#d97706">rightindex</tspan> 指向最后一个元素（都是闭区间下标）；③ 每块 64 个指针。</text>
+  <text x="20" y="310" font-size="12" fill="#64748b">块永远非空（至少一块）：空 deque 时 leftblock==rightblock，leftindex=32、rightindex=31（居中表示，两侧都有空间扩展）。</text>
+  <text x="20" y="332" font-size="12" fill="#64748b">为什么用「块」而非「每元素一个节点」？—— 每元素一节点要 2 个链接指针（200% 开销）+ 每元素一次 malloc；块把链接开销摊薄到 64 元素，malloc 次数降 64 倍。</text>
+</svg>

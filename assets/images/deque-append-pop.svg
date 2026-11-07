@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="470" viewBox="0 0 660 470" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="660" height="470" fill="#f8fafc" rx="8"/>
+  <text x="20" y="26" font-size="17" font-weight="bold" fill="#0f172a">两端增删四操作：leftindex / rightindex 怎么动（空 deque 居中：L=32，R=31）</text>
+
+  <!-- legend -->
+  <text x="20" y="48" font-size="12" fill="#64748b"><tspan fill="#16a34a" font-weight="bold">L = leftindex</tspan>（第一个元素）　<tspan fill="#d97706" font-weight="bold">R = rightindex</tspan>（最后一个元素）　<tspan fill="#dcfce7" stroke="#16a34a">■</tspan> 新写入　<tspan fill="#fee2e2" stroke="#dc2626">■</tspan> 被取出</text>
+
+  <!-- ============ Panel 1: append ============ -->
+  <rect x="20" y="62" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="34" y="86" font-size="14" font-weight="bold" fill="#0f172a">① append（右端入队）</text>
+  <!-- slots 30-35 -->
+  <rect x="34" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="51" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">30</text>
+  <rect x="70" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="87" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">31</text>
+  <rect x="106" y="96" width="34" height="34" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/><text x="123" y="117" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#166534">x</text>
+  <rect x="142" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="159" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">33</text>
+  <rect x="178" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="195" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">34</text>
+  <rect x="214" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="231" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">35</text>
+  <!-- L marker at 32 -->
+  <text x="123" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">L</text>
+  <line x1="123" y1="90" x2="123" y2="95" stroke="#16a34a" stroke-width="1.5"/>
+  <!-- R marker moved to 32 -->
+  <text x="123" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#d97706">R</text>
+  <line x1="123" y1="140" x2="123" y2="131" stroke="#d97706" stroke-width="1.5"/>
+  <path d="M87,140 C87,148 123,148 123,143" fill="none" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="34" y="172" font-size="12" fill="#0f172a">rightindex 31→32，写入 data[32]</text>
+  <text x="34" y="192" font-size="12" fill="#64748b">块满（R=63）时先分配新块，再写入</text>
+  <text x="34" y="212" font-size="12" fill="#64748b">不搬动任何已有元素，O(1)</text>
+
+  <!-- ============ Panel 2: appendleft ============ -->
+  <rect x="335" y="62" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="349" y="86" font-size="14" font-weight="bold" fill="#0f172a">② appendleft（左端入队）</text>
+  <rect x="349" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="366" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">30</text>
+  <rect x="385" y="96" width="34" height="34" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/><text x="402" y="117" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#166534">x</text>
+  <rect x="421" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="438" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">32</text>
+  <rect x="457" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="474" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">33</text>
+  <rect x="493" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="510" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">34</text>
+  <rect x="529" y="96" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="546" y="117" text-anchor="middle" font-size="10" fill="#94a3b8">35</text>
+  <text x="402" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">L</text>
+  <line x1="402" y1="90" x2="402" y2="95" stroke="#16a34a" stroke-width="1.5"/>
+  <path d="M438,90 C438,82 402,82 402,86" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="402" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#d97706">R</text>
+  <line x1="402" y1="140" x2="402" y2="131" stroke="#d97706" stroke-width="1.5"/>
+  <text x="349" y="172" font-size="12" fill="#0f172a">leftindex 32→31，写入 data[31]</text>
+  <text x="349" y="192" font-size="12" fill="#64748b">L=0 时先在前方分配新块，再写入</text>
+  <text x="349" y="212" font-size="12" fill="#64748b">append 的镜像，O(1)</text>
+
+  <!-- ============ Panel 3: popleft ============ -->
+  <rect x="20" y="268" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="34" y="292" font-size="14" font-weight="bold" fill="#0f172a">③ popleft（左端出队）</text>
+  <rect x="34" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="51" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">30</text>
+  <rect x="70" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="87" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">31</text>
+  <rect x="106" y="302" width="34" height="34" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/><text x="123" y="323" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#b91c1c">x</text>
+  <rect x="142" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="159" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">33</text>
+  <rect x="178" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="195" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">34</text>
+  <rect x="214" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="231" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">35</text>
+  <text x="159" y="294" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">L</text>
+  <line x1="159" y1="296" x2="159" y2="301" stroke="#16a34a" stroke-width="1.5"/>
+  <path d="M123,294 C123,288 159,288 159,292" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="123" y="352" text-anchor="middle" font-size="11" font-weight="bold" fill="#d97706">R</text>
+  <line x1="123" y1="346" x2="123" y2="337" stroke="#d97706" stroke-width="1.5"/>
+  <text x="34" y="378" font-size="12" fill="#0f172a">读 data[32]，leftindex 32→33</text>
+  <text x="34" y="398" font-size="12" fill="#64748b">L 越过块尾时释放整块，回收进 freeblocks</text>
+  <text x="34" y="418" font-size="12" fill="#64748b">O(1)，不搬动其他元素</text>
+
+  <!-- ============ Panel 4: pop ============ -->
+  <rect x="335" y="268" width="305" height="188" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="349" y="292" font-size="14" font-weight="bold" fill="#0f172a">④ pop（右端出队）</text>
+  <rect x="349" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="366" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">30</text>
+  <rect x="385" y="302" width="34" height="34" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/><text x="402" y="323" text-anchor="middle" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#b91c1c">x</text>
+  <rect x="421" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="438" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">32</text>
+  <rect x="457" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="474" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">33</text>
+  <rect x="493" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="510" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">34</text>
+  <rect x="529" y="302" width="34" height="34" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/><text x="546" y="323" text-anchor="middle" font-size="10" fill="#94a3b8">35</text>
+  <text x="438" y="294" text-anchor="middle" font-size="11" font-weight="bold" fill="#16a34a">L</text>
+  <line x1="438" y1="296" x2="438" y2="301" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="402" y="352" text-anchor="middle" font-size="11" font-weight="bold" fill="#d97706">R</text>
+  <line x1="402" y1="346" x2="402" y2="337" stroke="#d97706" stroke-width="1.5"/>
+  <path d="M366,352 C366,360 402,360 402,355" fill="none" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="349" y="378" font-size="12" fill="#0f172a">读 data[31]，rightindex 31→30</text>
+  <text x="349" y="398" font-size="12" fill="#64748b">R 越过块头时释放整块，回收进 freeblocks</text>
+  <text x="349" y="418" font-size="12" fill="#64748b">O(1)，popleft 的镜像</text>
+</svg>
