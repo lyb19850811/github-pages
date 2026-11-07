@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="640" viewBox="0 0 720 640" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="640" fill="#f8fafc" rx="8"/>
+  <text x="20" y="30" font-size="17" font-weight="bold" fill="#0f172a">装饰器编译期展开：<tspan font-family="ui-monospace, Menlo, monospace">@a @b def f</tspan>  ≡  <tspan font-family="ui-monospace, Menlo, monospace">f = a(b(f))</tspan></text>
+  <text x="20" y="52" font-size="12" fill="#64748b">CPython 3.15 字节码（本地 dis.dis 实测）—— 求值自顶向下，应用自底向上</text>
+
+  <!-- source box -->
+  <rect x="20" y="70" width="680" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="40" y="94" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">@a</text>
+  <text x="40" y="114" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">@b</text>
+  <text x="40" y="134" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">def f(): ...</text>
+
+  <line x1="360" y1="146" x2="360" y2="170" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <!-- phase 1 -->
+  <text x="20" y="188" font-size="12" font-weight="bold" fill="#4f46e5">阶段 ① 求值装饰器表达式（自顶向下：a → b）</text>
+  <rect x="20" y="198" width="680" height="40" rx="6" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="360" y="223" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#3730a3">LOAD_NAME a   ← 求值装饰器 a</text>
+  <rect x="20" y="254" width="680" height="40" rx="6" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="360" y="279" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#3730a3">LOAD_NAME b   ← 求值装饰器 b</text>
+
+  <!-- phase 2 -->
+  <text x="20" y="316" font-size="12" font-weight="bold" fill="#7c3aed">阶段 ② 创建函数对象</text>
+  <rect x="20" y="326" width="680" height="40" rx="6" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="360" y="351" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#5b21b6">MAKE_FUNCTION   ← 由 code object 创建函数对象</text>
+
+  <!-- phase 3 -->
+  <text x="20" y="388" font-size="12" font-weight="bold" fill="#16a34a">阶段 ③ 应用装饰器（自底向上：b → a）</text>
+  <rect x="20" y="398" width="680" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="360" y="423" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#166534">CALL 0  →  b(f)      （最内层装饰器先应用）</text>
+  <rect x="20" y="454" width="680" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="360" y="479" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#166534">CALL 0  →  a(b(f))   （外层装饰器后应用）</text>
+
+  <!-- phase 4 -->
+  <text x="20" y="516" font-size="12" font-weight="bold" fill="#d97706">阶段 ④ 重绑定名字</text>
+  <rect x="20" y="526" width="680" height="40" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+  <text x="360" y="551" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#92400e">STORE_NAME f   ← 结果重绑定到名字 f</text>
+
+  <!-- footer -->
+  <text x="20" y="586" font-size="12" fill="#0f172a"><tspan font-weight="bold">要点：</tspan>装饰器表达式自顶向下求值（a 先于 b），自底向上应用（b 先于 a）。</text>
+  <text x="20" y="604" font-size="12" fill="#0f172a">对应源码：codegen_decorators 正序 VISIT 求值，codegen_apply_decorators 倒序 CALL 应用。</text>
+  <text x="20" y="622" font-size="12" fill="#64748b">糖展开用 CALL 0（函数对象占 self 槽位）；手写 a(b(f)) 则编译为 PUSH_NULL + CALL 1。</text>
+</svg>

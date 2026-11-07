@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="332" viewBox="0 0 720 332" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="call" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+    <marker id="wrap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="332" fill="#f8fafc" rx="8"/>
+  <text x="20" y="30" font-size="17" font-weight="bold" fill="#0f172a">调用期：wrapper 闭包链 与 __wrapped__ 内省链</text>
+  <text x="20" y="52" font-size="12" fill="#64748b">调用 f() 时沿 wrapper 链逐层调用；functools.wraps 让 inspect.signature / unwrap 沿 __wrapped__ 链看穿到原函数</text>
+
+  <!-- caller -->
+  <rect x="20" y="90" width="150" height="100" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="95" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">caller</text>
+  <text x="95" y="140" text-anchor="middle" font-size="11" fill="#64748b">调用 f()</text>
+  <text x="95" y="162" text-anchor="middle" font-size="11" fill="#64748b">（只认识名字 f）</text>
+
+  <!-- wrapper_a -->
+  <rect x="200" y="90" width="150" height="100" rx="6" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="275" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#3730a3">wrapper_a</text>
+  <text x="275" y="140" text-anchor="middle" font-size="11" fill="#0f172a">f 实际指向它</text>
+  <text x="275" y="158" text-anchor="middle" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#64748b">闭包: func = wrapper_b</text>
+  <text x="275" y="176" text-anchor="middle" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#d97706">__wrapped__ = wrapper_b</text>
+
+  <!-- wrapper_b -->
+  <rect x="380" y="90" width="150" height="100" rx="6" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="455" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b21b6">wrapper_b</text>
+  <text x="455" y="140" text-anchor="middle" font-size="11" fill="#0f172a">装饰器 b 的包装</text>
+  <text x="455" y="158" text-anchor="middle" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#64748b">闭包: func = 原函数</text>
+  <text x="455" y="176" text-anchor="middle" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#d97706">__wrapped__ = 原函数</text>
+
+  <!-- original -->
+  <rect x="560" y="90" width="140" height="100" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="630" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">原始 f</text>
+  <text x="630" y="140" text-anchor="middle" font-size="11" fill="#0f172a">真正逻辑体</text>
+  <text x="630" y="162" text-anchor="middle" font-size="11" fill="#64748b">name / doc /</text>
+  <text x="630" y="180" text-anchor="middle" font-size="11" fill="#64748b">signature 在此</text>
+
+  <!-- call arrows (solid, top) -->
+  <line x1="170" y1="122" x2="198" y2="122" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#call)"/>
+  <line x1="350" y1="122" x2="378" y2="122" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#call)"/>
+  <line x1="530" y1="122" x2="558" y2="122" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#call)"/>
+  <text x="184" y="114" text-anchor="middle" font-size="9" fill="#4f46e5">调用</text>
+  <text x="364" y="114" text-anchor="middle" font-size="9" fill="#4f46e5">调用</text>
+  <text x="544" y="114" text-anchor="middle" font-size="9" fill="#4f46e5">调用</text>
+
+  <!-- __wrapped__ arrows (dashed, bottom) -->
+  <line x1="275" y1="230" x2="275" y2="192" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="275" y1="230" x2="455" y2="230" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#wrap)"/>
+  <line x1="455" y1="230" x2="630" y2="230" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#wrap)"/>
+  <text x="365" y="222" text-anchor="middle" font-size="9" fill="#d97706">__wrapped__</text>
+
+  <!-- footer -->
+  <text x="20" y="268" font-size="12" fill="#0f172a"><tspan font-weight="bold">要点：</tspan>外层 wrapper 通过闭包捕获内层函数，逐层调用到原始 f。</text>
+  <text x="20" y="288" font-size="12" fill="#0f172a">wraps 把原函数元数据复制到最外层，__wrapped__ 链让 inspect.unwrap 看穿回原函数。</text>
+  <text x="20" y="308" font-size="12" fill="#64748b">若不 wraps：inspect.signature(f) 读到 (*args, **kwargs)，name/doc 也变成 wrapper 自己的。</text>
+</svg>
