@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="440" fill="#f8fafc" rx="8"/>
+  <text x="20" y="28" font-size="17" font-weight="bold" fill="#0f172a">LiteLLM 架构：SDK 与 Proxy 共享 provider 适配层</text>
+
+  <!-- 入口层：Python SDK -->
+  <rect x="150" y="44" width="310" height="106" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="168" y="70" font-size="15" font-weight="bold" fill="#0f172a">Python SDK（库）</text>
+  <text x="168" y="92" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">completion() · embedding() · image_gen()</text>
+  <text x="168" y="112" font-size="11" fill="#0f172a">import litellm 直接调用 · 单进程 · Router 内嵌</text>
+  <text x="168" y="132" font-size="11" fill="#64748b">核心：@client 装饰器 + get_llm_provider 解析</text>
+
+  <!-- 入口层：Proxy 网关 -->
+  <rect x="480" y="44" width="300" height="106" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="498" y="70" font-size="15" font-weight="bold" fill="#0f172a">Proxy 网关</text>
+  <text x="498" y="92" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#166534">FastAPI 应用（app = FastAPI(...)）</text>
+  <text x="498" y="112" font-size="11" fill="#0f172a">虚拟密钥 · 预算 · 护栏 · 缓存 · 限流</text>
+  <text x="498" y="132" font-size="11" fill="#64748b">OpenAI 兼容端点 · 管理后台</text>
+
+  <!-- 箭头：SDK -> Router -->
+  <line x1="305" y1="150" x2="305" y2="184" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="313" y="171" font-size="11" font-weight="bold" fill="#4f46e5">调度</text>
+
+  <!-- 箭头：Proxy -> Router -->
+  <line x1="630" y1="150" x2="630" y2="184" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="638" y="171" font-size="11" font-weight="bold" fill="#4f46e5">调度</text>
+
+  <!-- Router 层 -->
+  <rect x="150" y="184" width="630" height="86" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text x="168" y="208" font-size="14" font-weight="bold" fill="#0f172a">Router 多模型调度（14 种策略）</text>
+  <text x="168" y="228" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">least_busy · lowest_cost · lowest_latency · lowest_tpm_rpm · simple_shuffle · tag_based</text>
+  <text x="168" y="248" font-size="11" fill="#64748b">同一逻辑模型名挂多个部署 → 按策略选一个 → 失败自动 failover + cooldown</text>
+
+  <!-- 箭头：Router -> llms -->
+  <line x1="465" y1="270" x2="465" y2="300" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="473" y="289" font-size="11" font-weight="bold" fill="#4f46e5">翻译</text>
+
+  <!-- llms 适配层 -->
+  <rect x="150" y="300" width="630" height="86" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="168" y="324" font-size="14" font-weight="bold" fill="#0f172a">llms/ provider 适配层（100+ 供应商）</text>
+  <text x="168" y="344" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#92400e">openai · anthropic · azure · bedrock · vertex · ollama · vllm · xinference · ...</text>
+  <text x="168" y="364" font-size="11" fill="#64748b">OpenAI 格式 ↔ 各家格式翻译：请求字段 · 鉴权 · 流式块 · 错误码</text>
+
+  <!-- 脚注 -->
+  <text x="20" y="412" font-size="12" fill="#0f172a"><tspan font-weight="bold">共享关系：</tspan>SDK 与 Proxy 共享下方两层——SDK 是「库」，Proxy 是把库包成 <tspan fill="#16a34a" font-weight="bold">FastAPI 服务</tspan>再叠加治理。</text>
+</svg>
