@@ -62,4 +62,58 @@
         pvuvEl.style.display = 'none';
       });
   }
+
+  // 图片点击放大（lightbox）
+  var content = document.querySelector('.content');
+  if (content) {
+    var imgs = content.querySelectorAll('img');
+    if (imgs.length) {
+      var overlay = document.createElement('div');
+      overlay.className = 'img-lightbox';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-label', '图片放大');
+      var lbImg = document.createElement('img');
+      var lbClose = document.createElement('button');
+      lbClose.className = 'lb-close';
+      lbClose.setAttribute('aria-label', '关闭');
+      lbClose.textContent = '\u00d7';
+      overlay.appendChild(lbImg);
+      overlay.appendChild(lbClose);
+      overlay.style.display = 'none';
+      document.body.appendChild(overlay);
+
+      function open(src, alt) {
+        lbImg.src = src;
+        lbImg.alt = alt || '';
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        overlay.style.display = 'none';
+        lbImg.removeAttribute('src');
+        document.body.style.overflow = '';
+      }
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay || e.target === lbClose) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.style.display === 'flex') close();
+      });
+
+      imgs.forEach(function (img) {
+        img.classList.add('zoomable');
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        img.addEventListener('click', function () {
+          open(img.getAttribute('src'), img.getAttribute('alt'));
+        });
+        img.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(img.getAttribute('src'), img.getAttribute('alt'));
+          }
+        });
+      });
+    }
+  }
 })();

@@ -227,6 +227,45 @@ code {
   box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
   margin: .5rem 0;
 }
+/* 图片点击放大（lightbox） */
+.content img.zoomable { cursor: zoom-in; transition: opacity .15s ease; }
+.content img.zoomable:hover { opacity: .9; }
+.img-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, .84);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+  animation: lb-fade .15s ease;
+}
+.img-lightbox img {
+  max-width: 95vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 48px rgba(0, 0, 0, .45);
+}
+.img-lightbox .lb-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.img-lightbox .lb-close:hover { background: rgba(255, 255, 255, .32); }
+@keyframes lb-fade { from { opacity: 0; } to { opacity: 1; } }
 .content blockquote {
   margin: 1rem 0;
   padding: .5rem 1rem;

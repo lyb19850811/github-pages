@@ -33,21 +33,7 @@ FastAPI 是 Python 生态里「增长最快」的 Web 框架，也是本仓库�
 
 ### 2.2 三层架构分工（核心）
 
-```
-FastAPI（胶水，22,748 行）
-  ├─ 依赖注入：Depends → get_dependant/solve_dependencies
-  ├─ OpenAPI 生成：get_openapi + Swagger UI/ReDoc 挂载
-  ├─ 类型驱动：签名 → ModelField → 校验/序列化管道
-  └─ 流式/遥测/路由上下文等机制
-        │ 继承 + 委托
-Starlette（ASGI 网络层，7,075 行，BSD-3-Clause）
-  ├─ Router 路由匹配（compile_path 正则 + 参数转换器）
-  ├─ Request/Response、middleware 栈、异常处理
-  └─ run_in_threadpool（anyio 线程池）
-        │ 依赖
-Pydantic v2（校验/序列化，MIT）
-  └─ pydantic-core（Rust）：ModelField.validate/serialize
-```
+![FastAPI 三层架构]({{ '/assets/images/fastapi-architecture.svg' | relative_url }})
 
 FastAPI 对 Starlette 的「定制」不是重写，而是**插入两个 AsyncExitStack**（见 §6.4）来管理依赖的 yield 清理，其余网络行为全部沿用。
 
@@ -79,33 +65,7 @@ FastAPI 对 Starlette 的「定制」不是重写，而是**插入两个 AsyncEx
 
 ## 五、请求生命周期（看不懂原理就看这里）
 
-```mermaid
-sequenceDiagram
-    participant C as 客户端
-    participant U as Uvicorn (ASGI)
-    participant M as Middleware 栈
-    participant R as Starlette Router
-    participant AR as APIRoute
-    participant H as get_request_handler
-    participant D as solve_dependencies
-    participant E as 端点函数
-    participant P as Pydantic (pydantic-core)
-
-    C->>U: HTTP 请求
-    U->>M: ASGI scope/receive/send
-    M->>R: 路由匹配 (compile_path 正则)
-    R->>AR: matches() 命中 APIRoute
-    AR->>H: app(request)
-    H->>D: solve_dependencies(request, dependant, body)
-    D-->>H: values dict（含依赖+参数校验结果）
-    H->>E: run_endpoint_function(**values)
-    Note over E: async def → 事件循环 await<br/>def → run_in_threadpool(线程池)
-    E-->>H: 返回值
-    H->>P: serialize_response(response_field)
-    P-->>H: JSON bytes
-    H-->>U: Response
-    U-->>C: HTTP 响应
-```
+![FastAPI 请求生命周期时序图]({{ '/assets/images/fastapi-request-lifecycle.svg' | relative_url }})
 
 三层职责在图中清晰可见：**Router 匹配和 ASGI 协议是 Starlette**；**`solve_dependencies` 依赖解析是 FastAPI**；**校验/序列化是 Pydantic**。端点执行时唯一的「分叉」就是 `async def` vs `def`。
 
@@ -259,3 +219,50 @@ get_openapi
 | `ModelField` | FastAPI 对 Pydantic 字段的封装，承载 `mode="serialization"`/`"validation"` |
 | `run_in_threadpool` | 把同步可调用对象丢进 anyio 线程池执行 |
 | 422 | Unprocessable Entity，FastAPI 用此状态码返回请求体校验失败 |
+
+### 8.5 参考项目：三个「小而美」的 FastAPI 开源项目
+
+> star 数为 2026-11 通过 GitHub API 一手抓取；结构/README 来自仓库原文。
+
+**① rednafi/fastapi-nano（1033⭐，MIT）—— 极简 Flask blueprint 模板**
+
+定位是「mimics Flask's blueprint directory structure」，纯 Python、无 DB/ORM、最小依赖，最近仍活跃（pushed 2026-11-03）。
+
+```
+svc/
+├── apis/               # 业务逻辑包（每个 API 一个包）
+│   ├── api_a/{mainmod.py, submod.py}
+│   └── api_b/{...}
+├── core/               # auth.py · config.py · logger.py
+├── routes/views.py     # 所有端点聚合于此
+├── main.py             # create_app() 工厂
+└── tests/              # test_apis / test_functions / test_logger
+```
+
+可学三点：① **`create_app()` 工厂**（测试可构造独立实例，而非模块级 `app = FastAPI()`）；② **业务逻辑（`apis/`）与端点（`routes/views.py`）分离**——`mainmod.py` 放纯函数 `main_func()`，`views.py` 才写 `@router.get(...)`；③ 最小认证栈 OAuth2 + Argon2（`pwdlib`）+ Bearer JWT（`PyJWT`），配置用 `pydantic-settings`，工具链 uv + ruff + mypy + pytest。局限：故意无 DB，`api_a/api_b` 是两份相同 dummy 逻辑，仅演示「多 API 解耦后组装」。
+
+**② kaxiluo/fastapi-skeleton（224⭐）—— 小而「严格」的分层骨架**
+
+异步 MySQL + Redis + APScheduler，SQLAlchemy 2.0 异步 ORM。star 不高但工程质量是三者里最硬的。分层契约（README 原文）：
+
+```
+app.http / app.jobs  >  app.services  >  app.repositories  >  app.models
+```
+
+这条依赖方向**由 `import-linter` 强制**（`make lint` 不过即失败），不是口头约定。三条最值得学的落点：**事务边界只在入口层**（HTTP 由 `get_db_session` 统一 commit/rollback，`service/repository` 永不 commit）；错误响应统一 RFC7807 风格 `{"type","title","detail"}`，业务抛 `AppError` 子类；structlog 结构化日志 + unit/integration 双层测试。它没堆花哨特性，而是把「分层 + 事务边界 + 错误契约」三件事用工具钉死，文件数可控、可通读。
+
+**③ s3rius/FastAPI-template（2837⭐）—— 交互式生成器（非固定模板）**
+
+`pip install fastapi_template` 后跑 `python -m fastapi_template`，TUI/CLI 交互式生成项目。DB（SQLite/MySQL/PG/Mongo）、ORM（SQLAlchemy 2.0/Tortoise/Ormar/Piccolo/Beanie）、REST/GraphQL、Redis/RabbitMQ/Kafka、Sentry/Prometheus/OpenTelemetry/Taskiq 全可选，生成项目自带 ~90% 覆盖测试。价值：它本身就是一张「FastAPI 生态可插拔矩阵」的活地图，不必全装，看一眼支持项即可知周边成熟组件有哪些。
+
+### 8.6 如何找到好的 FastAPI 项目
+
+| 渠道 | 具体 | 说明 |
+|---|---|---|
+| Awesome 精选列表 | `mjhea0/awesome-fastapi` | 按 boilerplate/projects/libraries/courses 分节，fastapi-nano 即被收于此 |
+| 真实项目精选 | `Kludex/awesome-fastapi-projects` | 收录真实生产项目（非玩具） |
+| 官方全栈模板 | `tiangolo/full-stack-fastapi-template`（46k⭐） | 作者本人维护，权威但偏重（前后端+DB+CI），宜当「正确答案」对照 |
+| GitHub 搜索 | `topic:fastapi` 按 stars 排序；关键词 `fastapi template` / `skeleton` / `boilerplate` | 找新兴小项目 |
+| Cookiecutter | `cookiecutter-fastapi` 等 | 一键脚手架 |
+
+挑选判据（本次选 fastapi-nano / kaxiluo 即用此四条）：① 有 `create_app()` 工厂而非模块级裸 `app`；② 业务逻辑与路由分离；③ 有测试且 `pushed` 时间在半年内；④ 依赖最小、不堆无意义特性。

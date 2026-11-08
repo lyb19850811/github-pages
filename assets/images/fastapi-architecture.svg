@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="inh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+    <marker id="dep" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="760" height="450" fill="#f8fafc" rx="8"/>
+  <text x="20" y="28" font-size="17" font-weight="bold" fill="#0f172a">FastAPI 三层架构：胶水层 / ASGI 网络层 / 数据层</text>
+
+  <!-- 继承箭头：FastAPI -> Starlette -->
+  <path d="M55,150 L55,180" fill="none" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#inh)"/>
+  <text x="64" y="170" font-size="11" font-weight="bold" fill="#4f46e5">继承</text>
+
+  <!-- 依赖箭头：FastAPI -> Pydantic（虚线，左侧边栏直通底层） -->
+  <path d="M115,150 L115,310" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#dep)"/>
+  <text x="124" y="232" font-size="11" font-weight="bold" fill="#16a34a">依赖</text>
+
+  <!-- Layer 1: FastAPI -->
+  <rect x="150" y="44" width="590" height="106" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="168" y="70" font-size="15" font-weight="bold" fill="#0f172a">FastAPI</text>
+  <text x="252" y="70" font-size="12" fill="#64748b">胶水层 · 22,748 行 Python · MIT</text>
+  <text x="168" y="94" font-size="12" fill="#0f172a"><tspan font-weight="bold">核心增量：</tspan>依赖注入 · OpenAPI 自动生成 · 类型驱动的校验/序列化</text>
+  <text x="168" y="114" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">Depends → get_dependant / solve_dependencies · get_openapi</text>
+  <text x="168" y="134" font-size="11" fill="#64748b">0.162 另含：SSE/JSONL 流式 · 原生 OpenTelemetry · 路由上下文</text>
+
+  <!-- Layer 2: Starlette -->
+  <rect x="150" y="180" width="590" height="106" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text x="168" y="206" font-size="15" font-weight="bold" fill="#0f172a">Starlette</text>
+  <text x="260" y="206" font-size="12" fill="#64748b">ASGI 网络层 · 7,075 行 Python · BSD-3-Clause</text>
+  <text x="168" y="230" font-size="12" fill="#0f172a"><tspan font-weight="bold">负责：</tspan>Router 路由匹配 · Request/Response · Middleware 栈 · 异常处理</text>
+  <text x="168" y="250" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">compile_path · run_in_threadpool · wrap_app_handling_exceptions</text>
+  <text x="168" y="270" font-size="11" fill="#64748b">唯一「侵入」：插入两个 AsyncExitStack 管理 yield 依赖清理（§6.4）</text>
+
+  <!-- Layer 3: Pydantic v2 -->
+  <rect x="150" y="310" width="590" height="106" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="168" y="336" font-size="15" font-weight="bold" fill="#0f172a">Pydantic v2</text>
+  <text x="282" y="336" font-size="12" fill="#64748b">校验 / 序列化 · MIT</text>
+  <text x="168" y="360" font-size="12" fill="#0f172a"><tspan font-weight="bold">负责：</tspan>类型注解 → 数据校验（输入）+ 序列化（输出），内核为 Rust</text>
+  <text x="168" y="380" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#166534">pydantic-core（Rust）· ModelField.validate / .serialize</text>
+  <text x="168" y="400" font-size="11" fill="#64748b">校验失败返回 422，错误体为 Pydantic v2 结构</text>
+
+  <!-- 脚注 -->
+  <text x="20" y="436" font-size="12" fill="#0f172a"><tspan font-weight="bold">两层关系：</tspan>FastAPI <tspan fill="#4f46e5" font-weight="bold">继承</tspan> Starlette（<tspan font-family="ui-monospace, Menlo, monospace">class FastAPI(Starlette)</tspan>），并<tspan fill="#16a34a" font-weight="bold">依赖</tspan> Pydantic 做校验/序列化；Starlette 与 Pydantic 彼此独立、互不依赖。</text>
+</svg>
