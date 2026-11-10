@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+  <text x="20" y="30" font-size="17" font-weight="bold" fill="#0f172a">ROS 2 架构：去中心化 DDS 自动发现（无 Master）</text>
+
+  <!-- 节点 A -->
+  <rect x="40" y="52" width="220" height="128" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="56" y="78" font-size="14" font-weight="bold" fill="#0f172a">节点 A：相机驱动</text>
+  <text x="56" y="100" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">DDS Participant</text>
+  <text x="56" y="120" font-size="11" fill="#0f172a">DataWriter</text>
+  <text x="56" y="140" font-size="11" fill="#0f172a">话题 /camera/image</text>
+  <text x="56" y="160" font-size="11" fill="#64748b">QoS：Best-Effort + 深度 5</text>
+
+  <!-- 节点 B -->
+  <rect x="290" y="52" width="220" height="128" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text x="306" y="78" font-size="14" font-weight="bold" fill="#0f172a">节点 B：图像处理</text>
+  <text x="306" y="100" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#0f172a">DDS Participant</text>
+  <text x="306" y="120" font-size="11" fill="#0f172a">DataReader + DataWriter</text>
+  <text x="306" y="140" font-size="11" fill="#0f172a">订阅 /camera/image</text>
+  <text x="306" y="160" font-size="11" fill="#0f172a">发布 /features</text>
+
+  <!-- 节点 C -->
+  <rect x="540" y="52" width="220" height="128" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="556" y="78" font-size="14" font-weight="bold" fill="#0f172a">节点 C：规划器</text>
+  <text x="556" y="100" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#166534">DDS Participant</text>
+  <text x="556" y="120" font-size="11" fill="#0f172a">DataReader</text>
+  <text x="556" y="140" font-size="11" fill="#0f172a">订阅 /features</text>
+  <text x="556" y="160" font-size="11" fill="#64748b">QoS：Reliable + 深度 10</text>
+
+  <!-- 逻辑数据流 A->B, B->C -->
+  <line x1="260" y1="116" x2="286" y2="116" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="510" y1="116" x2="536" y2="116" stroke="#4f46e5" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="262" y="106" font-size="11" font-weight="bold" fill="#4f46e5">数据流</text>
+  <text x="512" y="106" font-size="11" font-weight="bold" fill="#4f46e5">数据流</text>
+
+  <!-- 节点 -> DDS 域（发现 + 传输） -->
+  <line x1="150" y1="180" x2="150" y2="302" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="400" y1="180" x2="400" y2="302" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="650" y1="180" x2="650" y2="302" stroke="#4f46e5" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="162" y="250" font-size="11" font-weight="bold" fill="#4f46e5">自动发现</text>
+  <text x="412" y="250" font-size="11" font-weight="bold" fill="#4f46e5">自动发现</text>
+  <text x="662" y="250" font-size="11" font-weight="bold" fill="#4f46e5">自动发现</text>
+
+  <!-- DDS 域 -->
+  <rect x="40" y="302" width="720" height="92" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="56" y="328" font-size="14" font-weight="bold" fill="#0f172a">DDS 域（全局数据空间）· RTPS 线协议</text>
+  <text x="56" y="350" font-size="11" fill="#0f172a">SPDP（参与者发现）+ SEDP（端点发现）→ 自动建连，无中心节点</text>
+  <text x="56" y="372" font-size="11" fill="#92400e">QoS 按话题配置：可靠性 · 持久性 · 历史深度 · Deadline · Liveliness · Lifespan</text>
+
+  <!-- 底部注解 -->
+  <line x1="20" y1="418" x2="780" y2="418" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="20" y="444" font-size="12" fill="#0f172a"><tspan font-weight="bold">去中心化：</tspan>无需先启动任何 Master，任意节点通过 RTPS 发现协议自动找到彼此并直连；节点可动态加入/离开。</text>
+  <text x="20" y="470" font-size="12" fill="#64748b"><tspan font-weight="bold">切换：</tspan>通过 <tspan font-family="ui-monospace, Menlo, monospace">RMW_IMPLEMENTATION</tspan> 环境变量在 Fast DDS / Cyclone DDS / Connext 间运行时切换。</text>
+</svg>
