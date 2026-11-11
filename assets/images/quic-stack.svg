@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">协议栈对比：HTTP/3 走 QUIC，HTTP/2 走 TCP+TLS</text>
+
+  <text x="40" y="62" font-size="13" font-weight="bold" fill="#16a34a">HTTP/3 路径（用户态可演进）</text>
+  <text x="420" y="62" font-size="13" font-weight="bold" fill="#dc2626">HTTP/2 路径（依赖内核 TCP）</text>
+
+  <!-- 左列 -->
+  <rect x="40" y="72" width="340" height="78" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="56" y="98" font-size="14" font-weight="bold" fill="#0f172a">应用层 · HTTP/3</text>
+  <text x="56" y="120" font-size="11" fill="#0f172a">HTTP 语义（RFC 9114）+ <tspan font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">QPACK</tspan> 头压缩</text>
+
+  <rect x="40" y="158" width="340" height="92" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="56" y="184" font-size="14" font-weight="bold" fill="#0f172a">传输 + 安全（合并）· QUIC</text>
+  <text x="56" y="206" font-size="11" fill="#0f172a">流多路复用 · 可靠 · 拥塞控制（RFC 9000/9002）</text>
+  <text x="56" y="226" font-size="11" fill="#0f172a">+ TLS 1.3 集成加密（RFC 9001）—— 全部在用户态</text>
+
+  <rect x="40" y="258" width="340" height="60" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text x="56" y="284" font-size="14" font-weight="bold" fill="#0f172a">网络层 · UDP</text>
+  <text x="56" y="304" font-size="11" fill="#64748b">不可靠数据报（RFC 768），仅作承载，不提供可靠性</text>
+
+  <rect x="40" y="326" width="340" height="56" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.4"/>
+  <text x="56" y="350" font-size="14" font-weight="bold" fill="#0f172a">网络层 · IP</text>
+  <text x="56" y="368" font-size="11" fill="#64748b">IPv4 / IPv6</text>
+
+  <!-- 右列 -->
+  <rect x="420" y="72" width="340" height="78" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="436" y="98" font-size="14" font-weight="bold" fill="#0f172a">应用层 · HTTP/2</text>
+  <text x="436" y="120" font-size="11" fill="#0f172a">HTTP 语义 + 帧多路复用 + <tspan font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">HPACK</tspan> 头压缩</text>
+
+  <rect x="420" y="158" width="340" height="60" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="436" y="184" font-size="14" font-weight="bold" fill="#0f172a">安全层 · TLS 1.3（独立）</text>
+  <text x="436" y="204" font-size="11" fill="#0f172a">加密 · 认证 —— 与 TCP 分层，各自演进受限</text>
+
+  <rect x="420" y="226" width="340" height="92" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.4"/>
+  <text x="436" y="252" font-size="14" font-weight="bold" fill="#0f172a">传输层 · TCP</text>
+  <text x="436" y="274" font-size="11" fill="#0f172a">单字节流 · 可靠 · 拥塞控制 —— 实现在操作系统内核</text>
+  <text x="436" y="294" font-size="11" fill="#b91c1c">改动需内核升级，且中间盒广泛介入，部署新特性极难</text>
+
+  <rect x="420" y="326" width="340" height="56" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.4"/>
+  <text x="436" y="350" font-size="14" font-weight="bold" fill="#0f172a">网络层 · IP</text>
+  <text x="436" y="368" font-size="11" fill="#64748b">IPv4 / IPv6</text>
+
+  <line x1="20" y1="412" x2="780" y2="412" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="20" y="438" font-size="12" fill="#64748b"><tspan font-weight="bold">关键差异：</tspan>QUIC 把可靠传输、拥塞控制、TLS 加密整合进用户态一个库（UDP 之上），可随应用快速演进；TCP 路径则拆在「内核 TCP + 独立 TLS 库」两处，任何升级都要等内核与发行版跟进。</text>
+  <text x="20" y="458" font-size="12" fill="#64748b">这也是 QUIC 选 UDP 的根因——<tspan font-style="italic">中间盒看不懂、改不了加密后的传输语义</tspan>，从而摆脱 TCP 的协议僵化（ossification）。</text>
+</svg>

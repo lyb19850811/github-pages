@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="440" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">队头阻塞：TCP 单字节流 vs QUIC 多流</text>
+
+  <!-- 上半：TCP -->
+  <text x="20" y="64" font-size="13" font-weight="bold" fill="#dc2626">TCP：单一有序字节流（内核态，对应用不可见分界）</text>
+  <rect x="20" y="78" width="760" height="40" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.2"/>
+  <!-- 8 段：前3绿 第4红 后4灰 -->
+  <rect x="32" y="88" width="80" height="20" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="122" y="88" width="80" height="20" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="212" y="88" width="80" height="20" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="302" y="88" width="80" height="20" rx="3" fill="#fecaca" stroke="#dc2626" stroke-width="1.2"/>
+  <rect x="392" y="88" width="80" height="20" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="482" y="88" width="80" height="20" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="572" y="88" width="80" height="20" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="662" y="88" width="80" height="20" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="342" y="104" font-size="10" fill="#b91c1c" font-weight="bold" text-anchor="middle">丢失</text>
+  <text x="560" y="104" font-size="10" fill="#64748b" font-weight="bold" text-anchor="middle">全部被阻塞</text>
+  <text x="20" y="134" font-size="12" fill="#64748b">一个包丢失 → 该字节流上后续所有数据都被阻塞（head-of-line blocking），即使它们属于别的请求/资源也必须等重传。</text>
+
+  <!-- 下半：QUIC -->
+  <text x="20" y="178" font-size="13" font-weight="bold" fill="#16a34a">QUIC：多个独立流，可无序交付（丢失隔离）</text>
+
+  <!-- 流 A -->
+  <text x="20" y="218" font-size="11" font-weight="bold" fill="#0f172a">流 A</text>
+  <rect x="70" y="206" width="720" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="80" y="210" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="166" y="210" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="252" y="210" width="76" height="16" rx="3" fill="#fecaca" stroke="#dc2626" stroke-width="1.2"/>
+  <rect x="338" y="210" width="76" height="16" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="424" y="210" width="76" height="16" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="290" y="223" font-size="9" fill="#b91c1c" font-weight="bold" text-anchor="middle">丢失</text>
+  <text x="490" y="223" font-size="9" fill="#64748b" text-anchor="middle">仅流 A 被阻塞</text>
+
+  <!-- 流 B -->
+  <text x="20" y="258" font-size="11" font-weight="bold" fill="#0f172a">流 B</text>
+  <rect x="70" y="246" width="720" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="80" y="250" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="166" y="250" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="252" y="250" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="338" y="250" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="424" y="250" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <text x="490" y="263" font-size="9" fill="#166534" font-weight="bold" text-anchor="middle">照常送达</text>
+
+  <!-- 流 C -->
+  <text x="20" y="298" font-size="11" font-weight="bold" fill="#0f172a">流 C</text>
+  <rect x="70" y="286" width="720" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="80" y="290" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="166" y="290" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="252" y="290" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="338" y="290" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <rect x="424" y="290" width="76" height="16" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+  <text x="490" y="303" font-size="9" fill="#166534" font-weight="bold" text-anchor="middle">照常送达</text>
+
+  <!-- 底部注解 -->
+  <line x1="20" y1="342" x2="780" y2="342" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="20" y="368" font-size="12" fill="#64748b"><tspan font-weight="bold">机制：</tspan>QUIC 每个流独立编号（stream ID）、独立流控、独立重传，丢失只在流内重排；跨流无顺序约束，故流 A 丢包不阻塞流 B/C。</text>
+  <text x="20" y="390" font-size="12" fill="#64748b">HTTP/2 在应用层做了帧多路复用，但底层仍是 TCP 单字节流——TCP 丢包时 HTTP/2 的全部请求照样一起卡住；QUIC 把多路复用下沉到传输层，才真正消除队头阻塞。</text>
+</svg>

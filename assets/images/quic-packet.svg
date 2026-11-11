@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="470" viewBox="0 0 800 470" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="470" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">QUIC 报文结构：UDP 数据报 → 报文 → 帧</text>
+
+  <!-- UDP 数据报 -->
+  <rect x="30" y="60" width="740" height="300" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text x="46" y="84" font-size="13" font-weight="bold" fill="#0f172a">UDP 数据报（UDP datagram，可承载 1 个或多个 QUIC 报文）</text>
+
+  <!-- QUIC 报文 -->
+  <rect x="60" y="98" width="680" height="246" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.4"/>
+  <text x="76" y="118" font-size="12" font-weight="bold" fill="#0f172a">QUIC 报文（QUIC packet）</text>
+
+  <!-- 头部 -->
+  <rect x="76" y="128" width="648" height="80" rx="5" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.3"/>
+  <text x="90" y="146" font-size="11" font-weight="bold" fill="#0f172a">头部（部分字段经报文头保护加密）</text>
+  <rect x="90" y="156" width="120" height="40" rx="4" fill="#ffffff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="100" y="172" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">版本 Version</text>
+  <text x="100" y="186" font-size="9" fill="#64748b">（长包头）</text>
+  <rect x="220" y="156" width="160" height="40" rx="4" fill="#ffffff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="230" y="172" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">目标连接 ID (DCID)</text>
+  <text x="230" y="186" font-size="9" fill="#64748b">+ 源连接 ID (SCID)</text>
+  <rect x="390" y="156" width="140" height="40" rx="4" fill="#ffffff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="400" y="172" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#4f46e5">包序号 PN</text>
+  <text x="400" y="186" font-size="9" fill="#64748b">（加密）</text>
+  <rect x="540" y="156" width="170" height="40" rx="4" fill="#ffffff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="550" y="172" font-size="10" fill="#4f46e5">长包头：Initial/Handshake/0-RTT</text>
+  <text x="550" y="186" font-size="9" fill="#64748b">短包头：仅 DCID + PN（1-RTT）</text>
+
+  <!-- 载荷 -->
+  <rect x="76" y="214" width="648" height="94" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="90" y="232" font-size="11" font-weight="bold" fill="#0f172a">载荷（加密）= 帧序列（frames）</text>
+  <rect x="90" y="242" width="120" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="100" y="260" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">STREAM</text>
+  <rect x="220" y="242" width="120" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="230" y="260" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">ACK</text>
+  <rect x="350" y="242" width="120" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="360" y="260" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">CRYPTO</text>
+  <rect x="480" y="242" width="120" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="490" y="260" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">PADDING</text>
+  <rect x="90" y="274" width="120" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="100" y="292" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">RESET_STREAM</text>
+  <rect x="220" y="274" width="150" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="230" y="292" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">CONNECTION_CLOSE</text>
+  <rect x="380" y="274" width="150" height="28" rx="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="390" y="292" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#166534">MAX_DATA · PING …</text>
+
+  <!-- 认证标签 -->
+  <rect x="76" y="314" width="648" height="24" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+  <text x="90" y="330" font-size="11" fill="#92400e">AEAD 认证标签（完整性校验，防篡改）</text>
+
+  <!-- 底部注解 -->
+  <line x1="20" y1="382" x2="780" y2="382" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="20" y="408" font-size="12" fill="#64748b"><tspan font-weight="bold">报文头保护（header protection）：</tspan>包序号 PN 与头部部分字段被加密，中间盒无法读取序号，也无法据此做流量分析或干预，是 QUIC 反僵化（anti-ossification）的关键手段。</text>
+  <text x="20" y="430" font-size="12" fill="#64748b"><tspan font-weight="bold">帧是 QUIC 最小语义单元：</tspan>STREAM 载应用数据、ACK 确认、CRYPTO 载握手、CONNECTION_CLOSE 关连接；载荷整体用 AEAD 加密 + 认证，除少量头部字段外「几乎全加密」。</text>
+</svg>
