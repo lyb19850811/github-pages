@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="480" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">DDD 演进时间线（2003 → 2021）</text>
+  <text x="20" y="54" font-size="12" fill="#64748b">蓝色 = DDD 主线；绿色 = 架构谱系；琥珀 = 工作坊/工具。注意 CQRS、Event Sourcing、Event Storming 并非蓝皮书原生。</text>
+
+  <line x1="150" y1="72" x2="150" y2="440" stroke="#cbd5e1" stroke-width="2"/>
+
+  <text x="40" y="104" font-size="13" font-weight="bold" fill="#4f46e5" text-anchor="end">2003-08</text>
+  <circle cx="150" cy="100" r="5" fill="#4f46e5"/>
+  <text x="166" y="104" font-size="13" font-weight="bold" fill="#0f172a">Eric Evans《Domain-Driven Design》蓝皮书</text>
+  <text x="166" y="122" font-size="11" fill="#64748b">战略 + 战术设计奠基；Addison-Wesley 出版</text>
+
+  <text x="40" y="148" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="end">2005-09</text>
+  <circle cx="150" cy="144" r="5" fill="#16a34a"/>
+  <text x="166" y="148" font-size="13" fill="#0f172a">Cockburn《Hexagonal Architecture》</text>
+  <text x="166" y="166" font-size="11" fill="#64748b">端口与适配器：领域与外部设备解耦</text>
+
+  <text x="40" y="192" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="end">2005-12</text>
+  <circle cx="150" cy="188" r="5" fill="#16a34a"/>
+  <text x="166" y="192" font-size="13" fill="#0f172a">Fowler《Event Sourcing》</text>
+  <text x="166" y="210" font-size="11" fill="#64748b">以事件序列记录状态变更，可重建/时态查询</text>
+
+  <text x="40" y="236" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="end">2008-07</text>
+  <circle cx="150" cy="232" r="5" fill="#16a34a"/>
+  <text x="166" y="236" font-size="13" fill="#0f172a">Palermo《Onion Architecture》</text>
+  <text x="166" y="254" font-size="11" fill="#64748b">依赖恒指向中心领域模型</text>
+
+  <text x="40" y="280" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="end">2010</text>
+  <circle cx="150" cy="276" r="5" fill="#16a34a"/>
+  <text x="166" y="280" font-size="13" fill="#0f172a">Greg Young 提出 CQRS</text>
+  <text x="166" y="298" font-size="11" fill="#64748b">命令与查询模型分离；后与 DDD 合流</text>
+
+  <text x="40" y="324" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="end">2012-08</text>
+  <circle cx="150" cy="320" r="5" fill="#16a34a"/>
+  <text x="166" y="324" font-size="13" fill="#0f172a">R.C. Martin《Clean Architecture》</text>
+  <text x="166" y="342" font-size="11" fill="#64748b">依赖规则内层不知外层</text>
+
+  <text x="40" y="368" font-size="13" font-weight="bold" fill="#4f46e5" text-anchor="end">2013-02</text>
+  <circle cx="150" cy="364" r="5" fill="#4f46e5"/>
+  <text x="166" y="368" font-size="13" fill="#0f172a">Vernon《Implementing DDD》红皮书</text>
+  <text x="166" y="386" font-size="11" fill="#64748b">开篇即讲战略设计，战术落地的权威指南</text>
+
+  <text x="40" y="412" font-size="13" font-weight="bold" fill="#d97706" text-anchor="end">2013</text>
+  <circle cx="150" cy="408" r="5" fill="#d97706"/>
+  <text x="166" y="412" font-size="13" fill="#0f172a">Brandolini 命名 Event Storming</text>
+  <text x="166" y="430" font-size="11" fill="#64748b">2012 意大利敏捷日首现，2015 出书</text>
+
+  <text x="660" y="240" font-size="12" fill="#64748b" text-anchor="end">2015 Evans DDD Reference</text>
+  <text x="660" y="258" font-size="11" fill="#94a3b8" text-anchor="end">（正式收编 Domain Events 等新术语）</text>
+  <text x="660" y="286" font-size="12" fill="#64748b" text-anchor="end">2016 Evans《DDD Distilled》</text>
+  <text x="660" y="304" font-size="11" fill="#94a3b8" text-anchor="end">（精简入门）</text>
+  <text x="660" y="332" font-size="12" fill="#64748b" text-anchor="end">2021 Khononov《Learning DDD》</text>
+  <text x="660" y="350" font-size="11" fill="#94a3b8" text-anchor="end">（现代视角，强调战略优先）</text>
+</svg>

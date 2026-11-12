@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">四代架构谱系 + CQRS：都服务于「领域层不受外部侵蚀」</text>
+
+  <text x="40" y="62" font-size="13" font-weight="bold" fill="#64748b">四代演进（核心诉求一致：依赖指向领域，而非领域依赖基础设施）</text>
+
+  <rect x="40" y="76" width="350" height="104" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="56" y="100" font-size="13" font-weight="bold" fill="#0f172a">① 分层架构 Layered（Evans 2003）</text>
+  <text x="56" y="120" font-size="11" fill="#0f172a">UI → Application → Domain → Infrastructure</text>
+  <text x="56" y="138" font-size="11" fill="#64748b">领域层是核心，只依赖下层；但下层仍可能被</text>
+  <text x="56" y="154" font-size="11" fill="#64748b">业务逻辑「渗漏」，且只有上下两个端口</text>
+
+  <rect x="410" y="76" width="350" height="104" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="426" y="100" font-size="13" font-weight="bold" fill="#0f172a">② 六边形 Hexagonal（Cockburn 2005）</text>
+  <text x="426" y="120" font-size="11" fill="#0f172a">端口 + 适配器（Ports &amp; Adapters）</text>
+  <text x="426" y="138" font-size="11" fill="#64748b">应用对内定义端口、对外用适配器对接；</text>
+  <text x="426" y="154" font-size="11" fill="#64748b">无 UI / 无 DB 也能运行与测试</text>
+
+  <rect x="40" y="194" width="350" height="104" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="56" y="218" font-size="13" font-weight="bold" fill="#0f172a">③ 洋葱 Onion（Palermo 2008）</text>
+  <text x="56" y="238" font-size="11" fill="#0f172a">同心圆，中心是领域模型</text>
+  <text x="56" y="256" font-size="11" fill="#64748b">依赖恒指向圆心（领域）；基础设施在最外圈，</text>
+  <text x="56" y="272" font-size="11" fill="#64748b">通过接口倒置注入</text>
+
+  <rect x="410" y="194" width="350" height="104" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="426" y="218" font-size="13" font-weight="bold" fill="#0f172a">④ 清洁 Clean（R.C. Martin 2012）</text>
+  <text x="426" y="238" font-size="11" fill="#0f172a">Entities → Use Cases → Adapters → 框架</text>
+  <text x="426" y="256" font-size="11" fill="#64748b">依赖规则：内层不知道外层；</text>
+  <text x="426" y="272" font-size="11" fill="#64748b">与洋葱同源，边界更显式</text>
+
+  <!-- CQRS -->
+  <line x1="20" y1="322" x2="780" y2="322" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="40" y="352" font-size="13" font-weight="bold" fill="#0f172a">CQRS（Greg Young 约 2010）：命令与查询用不同模型</text>
+
+  <rect x="40" y="366" width="340" height="76" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.4"/>
+  <text x="56" y="390" font-size="13" font-weight="bold" fill="#0f172a">写模型 Command Model</text>
+  <text x="56" y="410" font-size="11" fill="#64748b">承载业务规则、不变量、领域事件</text>
+  <text x="56" y="428" font-size="11" fill="#64748b">与领域模型 / Event Sourcing 天然契合</text>
+
+  <rect x="420" y="366" width="340" height="76" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.4"/>
+  <text x="436" y="390" font-size="13" font-weight="bold" fill="#0f172a">读模型 Query Model</text>
+  <text x="436" y="410" font-size="11" fill="#64748b">为展示优化，可去范式化、独立扩展</text>
+  <text x="436" y="428" font-size="11" fill="#64748b">经事件投影（Event Poster）更新</text>
+
+  <line x1="380" y1="404" x2="420" y2="404" stroke="#64748b" stroke-width="1.6" marker-end="url(#arr2)"/>
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="400" y="392" font-size="10" fill="#64748b" text-anchor="middle">事件流</text>
+
+  <text x="20" y="470" font-size="12" fill="#64748b"><tspan font-weight="bold">边界：</tspan>分层/六边形/洋葱/清洁是「把领域隔离出来」的架构手段；CQRS/Event Sourcing 是「读写与状态建模」的模式，二者正交。Fowler 告诫——CQRS 增加风险，只应<span font-style="italic">用在真正受益的限界上下文</span>，不是全局默认。</text>
+</svg>

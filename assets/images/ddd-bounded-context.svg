@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif">
+  <rect width="800" height="460" fill="#f8fafc" rx="8"/>
+  <text x="20" y="32" font-size="17" font-weight="bold" fill="#0f172a">限界上下文与上下文映射：同一词在不同上下文有不同模型</text>
+
+  <!-- 左 BC：销售 -->
+  <rect x="40" y="60" width="300" height="210" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.6"/>
+  <text x="56" y="86" font-size="14" font-weight="bold" fill="#16a34a">销售上下文 Sales Context</text>
+  <text x="56" y="106" font-size="11" fill="#0f172a">通用语言里「客户」意味着：</text>
+  <rect x="56" y="116" width="268" height="52" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="68" y="136" font-size="12" font-weight="bold" fill="#0f172a">Customer</text>
+  <text x="68" y="154" font-size="11" fill="#64748b">信用等级 · 合同 · 销售区域</text>
+  <text x="56" y="190" font-size="11" fill="#0f172a">模型关注「是否值得成交」</text>
+  <text x="56" y="210" font-size="11" fill="#64748b">Customer 是实体，有身份与信用状态</text>
+  <text x="56" y="240" font-size="11" fill="#64748b">销售流程：报价 → 订单 → 回款</text>
+
+  <!-- 右 BC：支持 -->
+  <rect x="460" y="60" width="300" height="210" rx="8" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
+  <text x="476" y="86" font-size="14" font-weight="bold" fill="#4f46e5">支持上下文 Support Context</text>
+  <text x="476" y="106" font-size="11" fill="#0f172a">通用语言里「客户」意味着：</text>
+  <rect x="476" y="116" width="268" height="52" rx="6" fill="#ffffff" stroke="#4f46e5" stroke-width="1"/>
+  <text x="488" y="136" font-size="12" font-weight="bold" fill="#0f172a">Customer</text>
+  <text x="488" y="154" font-size="11" fill="#64748b">工单历史 · 服务级别 · 联系人</text>
+  <text x="476" y="190" font-size="11" fill="#0f172a">模型关注「是否在保、谁来处理」</text>
+  <text x="476" y="210" font-size="11" fill="#64748b">Customer 仍是实体，但字段完全不同</text>
+  <text x="476" y="240" font-size="11" fill="#64748b">支持流程：建单 → 分派 → 解决</text>
+
+  <!-- 中间：翻译层 -->
+  <rect x="352" y="150" width="96" height="72" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.4"/>
+  <text x="400" y="174" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">翻译层</text>
+  <text x="400" y="190" font-size="10" fill="#64748b" text-anchor="middle">ACL / 发布语言</text>
+  <text x="400" y="206" font-size="10" fill="#64748b" text-anchor="middle">映射两套模型</text>
+  <line x1="340" y1="150" x2="352" y2="165" stroke="#d97706" stroke-width="1.4"/>
+  <line x1="340" y1="222" x2="352" y2="207" stroke="#d97706" stroke-width="1.4"/>
+  <line x1="448" y1="165" x2="460" y2="150" stroke="#d97706" stroke-width="1.4"/>
+  <line x1="448" y1="207" x2="460" y2="222" stroke="#d97706" stroke-width="1.4"/>
+
+  <text x="40" y="306" font-size="13" font-weight="bold" fill="#0f172a">上下文映射（Context Map）描述这些边界间的关系</text>
+  <text x="40" y="330" font-size="12" fill="#64748b">上游/下游：上游团队的输出影响下游成功，反之不然。关系模式决定用「顺应的 Conformist」「防腐层 ACL」「共享内核 Shared Kernel」还是「各自为政 Separate Ways」。</text>
+  <text x="40" y="352" font-size="12" fill="#64748b">关键洞察：<tspan font-style="italic">「客户」「产品」这类多义词（polyseme）是建模混乱的根源</tspan>——口头能糊弄，计算机不能。DDD 不追求全组织统一模型，而追求每个上下文内的统一模型 + 边界间的显式翻译。</text>
+
+  <line x1="20" y1="382" x2="780" y2="382" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="20" y="408" font-size="12" fill="#64748b"><tspan font-weight="bold">依据：</tspan>Evans「模型的陈述只能在上下文中被理解」；Fowler 引 Evans「大系统的领域模型完全统一化不可行、也不经济」。</text>
+</svg>
