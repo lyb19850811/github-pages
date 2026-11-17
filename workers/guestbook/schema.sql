@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS messages (
+  id TEXT PRIMARY KEY,
+  author TEXT NOT NULL DEFAULT '',
+  content TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);

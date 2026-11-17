@@ -1,0 +1,8 @@
+name = "guestbook-api"
+main = "src/index.js"
+compatibility_date = "2026-10-20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "guestbook"
+database_id = "4985aa6f-b362-46ba-9142-5dd6fb3a47d6"

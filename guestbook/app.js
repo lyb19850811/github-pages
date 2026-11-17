@@ -1,11 +1,10 @@
 // 留言板 SPA（原生 JS，无框架、无构建）。
 //
 // 后端接口契约见本目录 README.md。
-// API_BASE 为空串 = 与前端同源：SPA 和 /api/ 都托管在同一台 ECS 上。
-// 若前端托管在别处（如 GitHub Pages），改成后端的绝对地址（结尾不带斜杠），
-// 且后端必须 HTTPS，否则会被浏览器按混合内容拦截。
+// 后端为 Cloudflare Worker（HTTPS），前端托管在 GitHub Pages（HTTPS）。
+// API_BASE 指向 Worker 的 HTTPS 地址（结尾不带斜杠）。
 
-const API_BASE = '';
+const API_BASE = 'https://guestbook-api.lyb19850811.workers.dev';
 
 const PAGE_SIZE = 20;
 
