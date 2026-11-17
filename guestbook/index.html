@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>留言板</title>
+  <meta name="description" content="访客留言板，由后端服务持久化存储">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="../">&larr; 返回首页</a>
+    <span class="conn" id="conn">连接中…</span>
+  </header>
+
+  <main>
+    <h1>留言板</h1>
+    <p class="meta">给本站留句话，内容由后端服务（ECS）持久化存储。</p>
+
+    <form id="form" class="form" novalidate>
+      <label>
+        昵称
+        <input type="text" id="author" name="author" maxlength="40" placeholder="你的名字（可选）" autocomplete="nickname">
+      </label>
+      <label>
+        留言
+        <textarea id="content" name="content" maxlength="1000" rows="4" required placeholder="写下你想说的话…"></textarea>
+      </label>
+      <div class="form-foot">
+        <span class="hint" id="hint" aria-live="polite"></span>
+        <button type="submit" id="submit" class="primary">发布</button>
+      </div>
+    </form>
+
+    <section id="list" aria-live="polite"></section>
+    <div class="more-wrap"><button id="more" type="button" hidden>加载更多</button></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
