@@ -1,9 +1,11 @@
 // 留言板 SPA（原生 JS，无框架、无构建）。
 //
-// 后端为独立 ECS 服务，接口契约见本目录 README.md。
-// 上线前把 API_BASE 改成你的后端地址（结尾不要带斜杠）。
+// 后端接口契约见本目录 README.md。
+// API_BASE 为空串 = 与前端同源：SPA 和 /api/ 都托管在同一台 ECS 上。
+// 若前端托管在别处（如 GitHub Pages），改成后端的绝对地址（结尾不带斜杠），
+// 且后端必须 HTTPS，否则会被浏览器按混合内容拦截。
 
-const API_BASE = 'https://api.example.com';
+const API_BASE = '';
 
 const PAGE_SIZE = 20;
 
